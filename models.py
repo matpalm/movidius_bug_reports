@@ -41,6 +41,20 @@ def model_for(eg):
     dump_shape_and_product_of('output', output)
     label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
     return imgs, logits, label
+  elif eg == 'deconv_padding_same':
+    imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
+    dump_shape_and_product_of('imgs', imgs)
+    model = slim.conv2d_transpose(imgs, num_outputs=6, kernel_size=3, stride=2,
+                                  padding='SAME', scope='d1')
+    dump_shape_and_product_of('d1', model)
+    model = slim.flatten(model)
+    dump_shape_and_product_of('flatten', model)
+    logits = slim.fully_connected(model, num_outputs=1, activation_fn=None)
+    output = tf.nn.sigmoid(logits, name='output')
+    dump_shape_and_product_of('output', output)
+    label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
+    return imgs, logits, label
+      
   else:
     raise Exception("unknown eg [%s]" % eg)
     
