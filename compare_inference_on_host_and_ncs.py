@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 
 import argparse
-import tensorflow as tf
-import numpy as np
 import data
+import models
 import mvnc.mvncapi as mvnc
+import numpy as np
+import tensorflow as tf
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--working-dir', type=str, help="working directory to store graph defs, chpts, compiled models, etc")
+parser.add_argument('--eg', type=str, help="which eg we are testing; dictates config & working directory to store graph defs, chpts, compiled models, etc")
 opts = parser.parse_args()
+
+pos_tensor, _pos_label, neg_tensor, _neg_label = data.tensors_for(opts.eg)
 
 # check on host
 
 graph_def = tf.GraphDef()
-with open("%s/graph.frozen.pb" % opts.working_dir, "rb") as f:
+with open("%s/graph.frozen.pb" % opts.eg, "rb") as f:
   graph_def.ParseFromString(f.read())
 tf.import_graph_def(graph_def, name=None)
 
@@ -21,9 +24,8 @@ imgs = tf.get_default_graph().get_tensor_by_name('import/imgs:0')
 model_output = tf.get_default_graph().get_tensor_by_name('import/output:0')
 
 with tf.Session() as sess:
-  host_positive_prediction = sess.run(model_output, feed_dict={imgs: [data.NEG_TENSOR]})[0]
-  host_negative_prediction = sess.run(model_output, feed_dict={imgs: [data.POS_TENSOR]})[0]
-
+  host_positive_prediction = sess.run(model_output, feed_dict={imgs: [pos_tensor]})[0]
+  host_negative_prediction = sess.run(model_output, feed_dict={imgs: [neg_tensor]})[0]
 print("host_positive_prediction", host_positive_prediction)
 print("host_negative_prediction", host_negative_prediction)
 
@@ -35,7 +37,7 @@ if len(devices) == 0:
 device = mvnc.Device(devices[0])
 device.OpenDevice()
 
-binary_graph = open("%s/graph.mv" % opts.working_dir, 'rb' ).read()
+binary_graph = open("%s/graph.mv" % opts.eg, 'rb' ).read()
 graph = device.AllocateGraph(binary_graph)
 
 def run_on_ncs(input):
@@ -43,8 +45,8 @@ def run_on_ncs(input):
   output, _user_object = graph.GetResult()
   return output
 
-ncs_positive_prediction = run_on_ncs(data.NEG_TENSOR)
-ncs_negative_prediction = run_on_ncs(data.POS_TENSOR)
+ncs_positive_prediction = run_on_ncs(pos_tensor)
+ncs_negative_prediction = run_on_ncs(neg_tensor)
 print("ncs_positive_prediction", ncs_positive_prediction)
 print("ncs_negative_prediction", ncs_negative_prediction)
 
@@ -56,6 +58,6 @@ device.CloseDevice()
 pos_close = np.isclose(host_positive_prediction, ncs_positive_prediction, atol=1e-3)
 neg_close = np.isclose(host_negative_prediction, ncs_negative_prediction, atol=1e-3)
 if pos_close and neg_close:
-  print("PASS", opts.working_dir)
+  print("PASS", opts.eg)
 else:
-  print("FAIL", opts.working_dir)
+  print("FAIL", opts.eg)

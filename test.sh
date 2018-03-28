@@ -3,7 +3,7 @@ mkdir $1
 
 set -ex
 
-./train_and_export_graph.py --working-dir $1 2>&1 | tee $1/train_and_export_graph.out
+./train_and_export_graph.py --eg $1 2>&1 | tee $1/train_and_export_graph.out
 
 python3 -m tensorflow.python.tools.freeze_graph \
  --clear_devices \
@@ -14,5 +14,5 @@ python3 -m tensorflow.python.tools.freeze_graph \
 
 mvNCCompile $1/graph.frozen.pb -s 12 -in imgs -on output -o $1/graph.mv 2>&1 | tee $1/mvNCCompile.out
 
-./compare_inference_on_host_and_ncs.py --working-dir $1 2>&1 | tee $1/compare_inference_on_host_and_ncs.out
+./compare_inference_on_host_and_ncs.py --eg $1 2>&1 | tee $1/compare_inference_on_host_and_ncs.out
 
