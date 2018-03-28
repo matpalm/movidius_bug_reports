@@ -64,8 +64,8 @@ def model_for(eg):
     # conv layer 1 with stride 2 for downsampling
     model = slim.conv2d(imgs, num_outputs=8, kernel_size=3, stride=2, scope='e1')
     dump_shape_and_product_of('e1', model)
-    # conv layer 2 with stride 2 for downsampling
 
+    # conv layer 2 with stride 2 for downsampling
     model = slim.conv2d(model, num_outputs=8, kernel_size=3, stride=2, scope='e2')
     dump_shape_and_product_of('e2', model)
 
