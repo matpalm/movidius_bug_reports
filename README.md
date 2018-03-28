@@ -1,5 +1,7 @@
 # repro cases for some failing conv models on NCS
 
+included to support [forum bug report](https://ncsforum.movidius.com/discussion/692/incorrect-inference-results-from-a-minimal-tensorflow-model)
+
 see `run_all_tests.sh` for entry point to run each test
 
 ## conv_with_8_filters
