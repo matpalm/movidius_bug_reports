@@ -26,8 +26,8 @@ model_output = tf.get_default_graph().get_tensor_by_name('import/output:0')
 with tf.Session() as sess:
   host_positive_prediction = sess.run(model_output, feed_dict={imgs: [pos_tensor]})[0]
   host_negative_prediction = sess.run(model_output, feed_dict={imgs: [neg_tensor]})[0]
-print("host_positive_prediction", host_positive_prediction)
-print("host_negative_prediction", host_negative_prediction)
+print("host_positive_prediction", host_positive_prediction.shape, host_positive_prediction)
+print("host_negative_prediction", host_negative_prediction.shape, host_negative_prediction)
 
 # check on ncs
 
@@ -47,13 +47,17 @@ def run_on_ncs(input):
 
 ncs_positive_prediction = run_on_ncs(pos_tensor)
 ncs_negative_prediction = run_on_ncs(neg_tensor)
-print("ncs_positive_prediction", ncs_positive_prediction)
-print("ncs_negative_prediction", ncs_negative_prediction)
+print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_prediction)
+print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction)
 
 graph.DeallocateGraph()
 device.CloseDevice()
 
 # compare results
+
+if host_positive_prediction.shape != ncs_positive_prediction.shape:
+  raise Exception("shape mismatch between host [%s] and ncs [%s]" % (host_positive_prediction.shape,
+                                                                     ncs_positive_prediction.shape))
 
 pos_close = np.isclose(host_positive_prediction, ncs_positive_prediction, atol=1e-3)
 neg_close = np.isclose(host_negative_prediction, ncs_negative_prediction, atol=1e-3)

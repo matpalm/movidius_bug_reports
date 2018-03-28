@@ -4,12 +4,21 @@ def random_img_like_tensor(size):
   return np.random.randint(low=0, high=256, size=size).astype(np.uint8)
 
 def tensors_for(eg):
-  if eg in ['conv_with_8_filters', 'conv_with_6_filters', 'deconv_padding_same']:
+  if eg in ['conv_with_8_filters', 'conv_with_6_filters',
+            'deconv_padding_same']:
     np.random.seed(123)
     return (random_img_like_tensor((64, 64, 3)),  # pos example
             np.ones((1,)),                        # pos label
             random_img_like_tensor((64, 64, 3)),  # neg example
             np.zeros((1,)))                       # neg label
+
+  elif eg == 'conv_deconv_output_shape_wrong':
+    np.random.seed(123)
+    return (random_img_like_tensor((128, 128, 3)),  # pos example
+            np.ones((65, 65, 1)),                   # pos label
+            random_img_like_tensor((128, 128, 3)),  # neg example
+            np.zeros((65, 65, 1)))                  # neg label
+
   else:
     raise Exception("unknown eg [%s]" % eg)
 

@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
+set -x
+
+rm -rf $1
 mkdir $1
 
-set -ex
+set -e
 
 ./train_and_export_graph.py --eg $1 2>&1 | tee $1/train_and_export_graph.out
 
