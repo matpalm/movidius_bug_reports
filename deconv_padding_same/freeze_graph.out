@@ -1,8 +1,0 @@
-2018-03-28 15:07:43.864276: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
-2018-03-28 15:07:44.185786: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1212] Found device 0 with properties: 
-name: TITAN X (Pascal) major: 6 minor: 1 memoryClockRate(GHz): 1.531
-pciBusID: 0000:01:00.0
-totalMemory: 11.90GiB freeMemory: 10.42GiB
-2018-03-28 15:07:44.185823: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1312] Adding visible gpu devices: 0
-2018-03-28 15:07:44.477467: I tensorflow/core/common_runtime/gpu/gpu_device.cc:993] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10087 MB memory) -> physical GPU (device: 0, name: TITAN X (Pascal), pci bus id: 0000:01:00.0, compute capability: 6.1)
-Converted 4 variables to const ops.

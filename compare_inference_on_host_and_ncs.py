@@ -11,9 +11,11 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 parser.add_argument('--eg', type=str, help="which eg we are testing; dictates config & working directory to store graph defs, chpts, compiled models, etc")
 opts = parser.parse_args()
 
-pos_tensor, _pos_label, neg_tensor, _neg_label = data.tensors_for(opts.eg)
+pos_tensor, pos_label, neg_tensor, neg_label = data.tensors_for(opts.eg)
+print("expected positive_prediction", pos_label)
+print("expected negativee_prediction", neg_label)
 
-# check on host
+# check host
 
 graph_def = tf.GraphDef()
 with open("%s/graph.frozen.pb" % opts.eg, "rb") as f:
@@ -21,7 +23,7 @@ with open("%s/graph.frozen.pb" % opts.eg, "rb") as f:
 tf.import_graph_def(graph_def, name=None)
 
 imgs = tf.get_default_graph().get_tensor_by_name('import/imgs:0')
-model_output = tf.get_default_graph().get_tensor_by_name('import/output:0')
+model_output = tf.get_default_graph().get_tensor_by_name('import/output/BiasAdd:0')
 
 with tf.Session() as sess:
   host_positive_prediction = sess.run(model_output, feed_dict={imgs: [pos_tensor]})[0]

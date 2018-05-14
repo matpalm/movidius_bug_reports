@@ -8,27 +8,52 @@ def dump_shape_and_product_of(tag, t):
   for dim in t.get_shape().as_list()[1:]:
     shape_product *= dim
   print("%-10s %-20s #%s" % (tag, t.get_shape(), shape_product), file=sys.stderr)
-  
-#def shapes_for(eg):
-#  if eg in ['conv_with_8_filters', 'conv_with_6_filters']:
-#    return ((1, 64, 64, 3),  # input shape for tf placeholder
-#            (1, 1))          # output shape for tf label placeholder
-#  else:
-#    raise Exception("unknown eg [%s]" % eg)
+
 
 def model_for(eg):
-  if eg == 'conv_with_8_filters':
-    imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
+  if eg == 'conv_with_regression':
+
+    imgs = tf.placeholder(dtype=np.float32, shape=(1, 512, 384, 3), name='imgs')
     dump_shape_and_product_of('imgs', imgs)
-    model = slim.conv2d(imgs, num_outputs=8, kernel_size=3, stride=2, scope='e1')
+
+    model = slim.conv2d(imgs, num_outputs=32, kernel_size=3, stride=2, scope='e1')
     dump_shape_and_product_of('e1', model)
+
+    model = slim.conv2d(model, num_outputs=64, kernel_size=3, stride=2, scope='e2')
+    dump_shape_and_product_of('e2', model)
+
+    # model = slim.conv2d(model, num_outputs=128, kernel_size=3, stride=2, scope='e3')
+    # dump_shape_and_product_of('e3', model)
+
+    # model = slim.conv2d(model, num_outputs=128, kernel_size=3, stride=2, scope='e4')
+    # dump_shape_and_product_of('e4', model)
+
+    # model = slim.conv2d(model, num_outputs=128, kernel_size=3, stride=2, scope='e5')
+    # dump_shape_and_product_of('e5', model)
+
     model = slim.flatten(model)
     dump_shape_and_product_of('flatten', model)
-    logits = slim.fully_connected(model, num_outputs=1, activation_fn=None)
-    output = tf.nn.sigmoid(logits, name='output')
+
+    # model = slim.fully_connected(inputs=model,
+    #                              num_outputs=64,
+    #                              scope='h0')
+    # dump_shape_and_product_of('h0', model)
+
+#    model = slim.fully_connected(inputs=model,
+#                                 num_outputs=64,
+#                                 scope='h1')
+#    dump_shape_and_product_of('h1', model)
+
+    output = slim.fully_connected(model, num_outputs=1,
+                                  activation_fn=None, scope='output')
+#    output = tf.nn.sigmoid(logits, name='output')
     dump_shape_and_product_of('output', output)
+
     label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
-    return imgs, logits, label
+
+    loss = tf.nn.l2_loss(output - label)
+
+    return imgs, label, loss
 
   elif eg == 'conv_with_6_filters':
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
@@ -40,8 +65,12 @@ def model_for(eg):
     logits = slim.fully_connected(model, num_outputs=1, activation_fn=None)
     output = tf.nn.sigmoid(logits, name='output')
     dump_shape_and_product_of('output', output)
+
     label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
-    return imgs, logits, label
+
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=label, logits=logits))
+
+    return imgs, label, loss
 
   elif eg == 'deconv_padding_same':
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
@@ -54,8 +83,12 @@ def model_for(eg):
     logits = slim.fully_connected(model, num_outputs=1, activation_fn=None)
     output = tf.nn.sigmoid(logits, name='output')
     dump_shape_and_product_of('output', output)
+
     label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
-    return imgs, logits, label
+
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=label, logits=logits))
+
+    return imgs, label, loss
 
   elif eg == 'conv_deconv_output_shape_wrong':
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 128, 128, 3), name='imgs')
@@ -87,8 +120,10 @@ def model_for(eg):
     dump_shape_and_product_of('output', output)
 
     label = tf.placeholder(dtype=np.float32, shape=(1, 65, 65, 1), name='label')
-    return imgs, logits, label
+
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=label, logits=logits))
+
+    return imgs, label, loss
 
   else:
     raise Exception("unknown eg [%s]" % eg)
-    
