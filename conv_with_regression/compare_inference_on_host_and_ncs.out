@@ -1,22 +1,22 @@
 WARNING:tensorflow:From /usr/local/lib/python3.5/dist-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
 Instructions for updating:
 Use the retry module or similar alternatives.
-2018-05-15 06:10:36.629276: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
-2018-05-15 06:10:36.908762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties: 
+2018-06-04 20:41:18.034464: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
+2018-06-04 20:41:18.220536: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties: 
 name: TITAN X (Pascal) major: 6 minor: 1 memoryClockRate(GHz): 1.531
 pciBusID: 0000:01:00.0
-totalMemory: 11.90GiB freeMemory: 10.97GiB
-2018-05-15 06:10:36.908801: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
-2018-05-15 06:10:37.218151: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
-2018-05-15 06:10:37.218200: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0 
-2018-05-15 06:10:37.218208: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N 
-2018-05-15 06:10:37.218504: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10622 MB memory) -> physical GPU (device: 0, name: TITAN X (Pascal), pci bus id: 0000:01:00.0, compute capability: 6.1)
+totalMemory: 11.90GiB freeMemory: 10.92GiB
+2018-06-04 20:41:18.220574: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2018-06-04 20:41:18.520743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-06-04 20:41:18.520805: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0 
+2018-06-04 20:41:18.520813: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N 
+2018-06-04 20:41:18.521127: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10573 MB memory) -> physical GPU (device: 0, name: TITAN X (Pascal), pci bus id: 0000:01:00.0, compute capability: 6.1)
 /usr/local/lib/python3.5/dist-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
   if d.decorator_argspec is not None), _inspect.getargspec(target))
 expected positive_prediction [10]
 expected negativee_prediction [5]
 host_positive_prediction (1,) [ 10.]
 host_negative_prediction (1,) [ 5.]
-ncs_positive_prediction (1,) [ 4.50390625]
-ncs_negative_prediction (1,) [ 4.19921875]
+ncs_positive_prediction (1,) [ 6.91796875]
+ncs_negative_prediction (1,) [ 4.46484375]
 FAIL conv_with_regression

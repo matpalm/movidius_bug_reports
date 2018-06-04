@@ -1,16 +1,16 @@
 WARNING:tensorflow:From /usr/local/lib/python3.5/dist-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
 Instructions for updating:
 Use the retry module or similar alternatives.
-2018-05-15 06:09:57.807356: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
-2018-05-15 06:09:58.065010: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties: 
+2018-06-04 20:40:40.313134: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
+2018-06-04 20:40:40.499373: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties: 
 name: TITAN X (Pascal) major: 6 minor: 1 memoryClockRate(GHz): 1.531
 pciBusID: 0000:01:00.0
-totalMemory: 11.90GiB freeMemory: 11.04GiB
-2018-05-15 06:09:58.065038: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
-2018-05-15 06:09:58.385627: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
-2018-05-15 06:09:58.385670: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0 
-2018-05-15 06:09:58.385678: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N 
-2018-05-15 06:09:58.386006: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10693 MB memory) -> physical GPU (device: 0, name: TITAN X (Pascal), pci bus id: 0000:01:00.0, compute capability: 6.1)
+totalMemory: 11.90GiB freeMemory: 10.92GiB
+2018-06-04 20:40:40.499406: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2018-06-04 20:40:40.802436: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-06-04 20:40:40.802482: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0 
+2018-06-04 20:40:40.802492: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N 
+2018-06-04 20:40:40.802817: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10573 MB memory) -> physical GPU (device: 0, name: TITAN X (Pascal), pci bus id: 0000:01:00.0, compute capability: 6.1)
 imgs       (1, 512, 384, 3)     #589824
 e1         (1, 256, 192, 32)    #1572864
 e2         (1, 128, 96, 64)     #786432

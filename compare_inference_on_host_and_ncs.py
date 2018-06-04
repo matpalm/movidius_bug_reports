@@ -33,18 +33,20 @@ print("host_negative_prediction", host_negative_prediction.shape, host_negative_
 
 # check on ncs
 
-devices = mvnc.EnumerateDevices()
+devices = mvnc.enumerate_devices()
 if len(devices) == 0:
   raise Exception("no compute stick?")
 device = mvnc.Device(devices[0])
-device.OpenDevice()
+device.open()
 
 binary_graph = open("%s/graph.mv" % opts.eg, 'rb' ).read()
-graph = device.AllocateGraph(binary_graph)
+graph = mvnc.Graph('g')
+input_fifo, output_fifo = graph.allocate_with_fifos(device, binary_graph)
 
 def run_on_ncs(input):
-  graph.LoadTensor(input.astype(np.float16), '')
-  output, _user_object = graph.GetResult()
+  graph.queue_inference_with_fifo_elem(input_fifo, output_fifo,
+                                       np.float32(input), None)
+  output, _user_object = output_fifo.read_elem()
   return output
 
 ncs_positive_prediction = run_on_ncs(pos_tensor)
@@ -52,8 +54,11 @@ ncs_negative_prediction = run_on_ncs(neg_tensor)
 print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_prediction)
 print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction)
 
-graph.DeallocateGraph()
-device.CloseDevice()
+input_fifo.destroy()
+output_fifo.destroy()
+graph.destroy()
+device.close()
+device.destroy()
 
 # compare results
 
