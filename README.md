@@ -13,10 +13,10 @@ simple conv net with single dense connection output. trained with two random
 examples; one regressing to an output of 10, the other to 5.
 
 ```
-imgs       (1, 512, 384, 3)     #589824
-e1         (1, 256, 192, 32)    #1572864
-e2         (1, 128, 96, 64)     #786432
-flatten    (1, 786432)          #786432
+imgs       (1, 128, 96, 3)      #36864
+e1         (1, 64, 48, 32)      #98304
+e2         (1, 32, 24, 64)      #49152
+flatten    (1, 49152)           #49152
 output     (1, 1)               #1
 ```
 
@@ -29,10 +29,10 @@ all assets are included in repository;
 $ tail conv_with_regression/compare_inference_on_host_and_ncs.out
 expected positive_prediction [10]
 expected negativee_prediction [5]
-host_positive_prediction (1,) [ 10.]
-host_negative_prediction (1,) [ 5.]
-ncs_positive_prediction (1,) [ nan]
-ncs_negative_prediction (1,) [ 4.5703125]
+host_positive_prediction (1,) [ 9.99999523]
+host_negative_prediction (1,) [ 5.00000477]
+ncs_positive_prediction (1,) [ 9.8203125]
+ncs_negative_prediction (1,) [ 4.94921875]
 ```
 
 ## conv_with_8_filters (DISABLED)
