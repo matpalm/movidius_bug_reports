@@ -6,10 +6,10 @@ def random_img_like_tensor(size):
 def tensors_for(eg):
   if eg in ['conv_with_regression']:
     np.random.seed(123)
-    return (random_img_like_tensor((512, 384, 3)),  # pos example
-            np.array([10]),                         # pos label
-            random_img_like_tensor((512, 384, 3)),  # neg example
-            np.array([5]))                          # neg label
+    return (random_img_like_tensor((128, 96, 3)),  # pos example
+            np.array([10]),                        # pos label
+            random_img_like_tensor((128, 96, 3)),  # neg example
+            np.array([5]))                         # neg label
 
   elif eg in ['conv_with_8_filters', 'conv_with_6_filters', 'deconv_padding_same']:
     np.random.seed(123)

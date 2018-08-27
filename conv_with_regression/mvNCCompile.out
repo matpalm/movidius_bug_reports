@@ -1,11 +1,8 @@
-/usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/ops.py:875: DeprecationWarning: builtin type EagerTensor has no __module__ attribute
-/usr/local/lib/python3.5/dist-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
-/usr/local/lib/python3.5/dist-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
-/usr/local/lib/python3.5/dist-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
+/usr/lib/python3.5/site-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
 /usr/local/bin/ncsdk/Controllers/FileIO.py:65: UserWarning: [93mYou are using a large type. Consider reducing your data sizes for best performance[0m
 [1mmvNCCompile v02.00, Copyright @ Intel Corporation 2017[0m
 
-shape: (1, 512, 384, 3)
+shape: (1, 128, 96, 3)
 res.shape:  (1, 1)
 TensorFlow output shape:  (1, 1, 1)
 Blob generated

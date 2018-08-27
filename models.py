@@ -13,7 +13,7 @@ def dump_shape_and_product_of(tag, t):
 def model_for(eg):
   if eg == 'conv_with_regression':
 
-    imgs = tf.placeholder(dtype=np.float32, shape=(1, 512, 384, 3), name='imgs')
+    imgs = tf.placeholder(dtype=np.float32, shape=(1, 128, 96, 3), name='imgs')
     dump_shape_and_product_of('imgs', imgs)
 
     model = slim.conv2d(imgs, num_outputs=32, kernel_size=3, stride=2, scope='e1')

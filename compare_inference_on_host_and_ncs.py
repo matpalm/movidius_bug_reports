@@ -66,8 +66,8 @@ if host_positive_prediction.shape != ncs_positive_prediction.shape:
   raise Exception("shape mismatch between host [%s] and ncs [%s]" % (host_positive_prediction.shape,
                                                                      ncs_positive_prediction.shape))
 
-pos_close = np.isclose(host_positive_prediction, ncs_positive_prediction, atol=1e-3)
-neg_close = np.isclose(host_negative_prediction, ncs_negative_prediction, atol=1e-3)
+pos_close = np.isclose(host_positive_prediction, ncs_positive_prediction, atol=0.2)
+neg_close = np.isclose(host_negative_prediction, ncs_negative_prediction, atol=0.2)
 if pos_close and neg_close:
   print("PASS", opts.eg)
 else:
