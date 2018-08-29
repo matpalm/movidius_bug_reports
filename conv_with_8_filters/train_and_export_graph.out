@@ -1,9 +1,8 @@
 WARNING:tensorflow:From /usr/lib/python3.5/site-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
 Instructions for updating:
 Use the retry module or similar alternatives.
-2018-08-29 16:19:22.080451: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
-imgs       (1, 128, 96, 3)      #36864
-e1         (1, 64, 48, 32)      #98304
-e2         (1, 32, 24, 64)      #49152
-flatten    (1, 49152)           #49152
+2018-08-29 16:25:47.635335: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
+imgs       (1, 64, 64, 3)       #12288
+e1         (1, 32, 32, 8)       #8192
+flatten    (1, 8192)            #8192
 output     (1, 1)               #1

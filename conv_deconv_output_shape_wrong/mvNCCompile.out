@@ -1,0 +1,8 @@
+/usr/lib/python3.5/site-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
+/usr/local/bin/ncsdk/Controllers/FileIO.py:65: UserWarning: [93mYou are using a large type. Consider reducing your data sizes for best performance[0m
+[1mmvNCCompile v02.00, Copyright @ Intel Corporation 2017[0m
+
+shape: (1, 128, 128, 3)
+res.shape:  (1, 65, 65, 1)
+TensorFlow output shape:  (65, 65, 1)
+Blob generated

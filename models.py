@@ -9,68 +9,56 @@ def dump_shape_and_product_of(tag, t):
     shape_product *= dim
   print("%-10s %-20s #%s" % (tag, t.get_shape(), shape_product), file=sys.stderr)
 
-
-def model_for(eg):
-  if eg == 'conv_with_regression':
-
-    imgs = tf.placeholder(dtype=np.float32, shape=(1, 128, 96, 3), name='imgs')
-    dump_shape_and_product_of('imgs', imgs)
-
-    model = slim.conv2d(imgs, num_outputs=32, kernel_size=3, stride=2, scope='e1')
-    dump_shape_and_product_of('e1', model)
-
-    model = slim.conv2d(model, num_outputs=64, kernel_size=3, stride=2, scope='e2')
-    dump_shape_and_product_of('e2', model)
-
-    # model = slim.conv2d(model, num_outputs=128, kernel_size=3, stride=2, scope='e3')
-    # dump_shape_and_product_of('e3', model)
-
-    # model = slim.conv2d(model, num_outputs=128, kernel_size=3, stride=2, scope='e4')
-    # dump_shape_and_product_of('e4', model)
-
-    # model = slim.conv2d(model, num_outputs=128, kernel_size=3, stride=2, scope='e5')
-    # dump_shape_and_product_of('e5', model)
-
-    model = slim.flatten(model)
-    dump_shape_and_product_of('flatten', model)
-
-    # model = slim.fully_connected(inputs=model,
-    #                              num_outputs=64,
-    #                              scope='h0')
-    # dump_shape_and_product_of('h0', model)
-
-#    model = slim.fully_connected(inputs=model,
-#                                 num_outputs=64,
-#                                 scope='h1')
-#    dump_shape_and_product_of('h1', model)
-
-    output = slim.fully_connected(model, num_outputs=1,
-                                  activation_fn=None, scope='output')
-#    output = tf.nn.sigmoid(logits, name='output')
-    dump_shape_and_product_of('output', output)
-
-    label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
-
-    loss = tf.nn.l2_loss(output - label)
-
-    return imgs, label, loss
-
-  elif eg == 'conv_with_6_filters':
+def conv_with_n_filters(n):
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
     dump_shape_and_product_of('imgs', imgs)
-    model = slim.conv2d(imgs, num_outputs=6, kernel_size=3, stride=2, scope='e1')
+    model = slim.conv2d(imgs, num_outputs=n, kernel_size=3, stride=2, scope='e1')
     dump_shape_and_product_of('e1', model)
     model = slim.flatten(model)
     dump_shape_and_product_of('flatten', model)
     logits = slim.fully_connected(model, num_outputs=1, activation_fn=None)
     output = tf.nn.sigmoid(logits, name='output')
     dump_shape_and_product_of('output', output)
-
     label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
-
     loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=label, logits=logits))
-
     return imgs, label, loss
+
+
+def model_for(eg):
+
+  if eg == 'conv_with_regression':
+    # see this model fail if the spatial input is large enough input size that
+    # the flatten goes above some size.
+    imgs = tf.placeholder(dtype=np.float32, shape=(1, 128, 96, 3), name='imgs')
+    dump_shape_and_product_of('imgs', imgs)
+    model = slim.conv2d(imgs, num_outputs=32, kernel_size=3, stride=2, scope='e1')
+    dump_shape_and_product_of('e1', model)
+    model = slim.conv2d(model, num_outputs=64, kernel_size=3, stride=2, scope='e2')
+    dump_shape_and_product_of('e2', model)
+    model = slim.flatten(model)
+    dump_shape_and_product_of('flatten', model)
+    output = slim.fully_connected(model, num_outputs=1,
+                                  activation_fn=None, scope='output')
+
+    #TODO: what is the right thing to do here to introduce a no op operation
+    #      whose only purpose is to ensure there is a node here named just
+    #      'output' as opposed to 'output/BiasAdd' to make this model consistent
+    #      with the following examples...
+
+    dump_shape_and_product_of('output', output)
+    label = tf.placeholder(dtype=np.float32, shape=(1, 1), name='label')
+    loss = tf.nn.l2_loss(output - label)
+    return imgs, label, loss
+
+  elif eg == 'conv_with_8_filters':
+    # this model works, but the corresponding one with _6_ filters fails :/
+    return conv_with_n_filters(n=8)
+
+  elif eg == 'conv_with_6_filters':
+    # this model fails, but the corresponding one with _8_ filters works :/
+    # seems that anything <8 fails. including 1, which is the main case i'm
+    # wanting to use for bee nn
+    return conv_with_n_filters(n=6)
 
   elif eg == 'deconv_padding_same':
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
@@ -91,6 +79,12 @@ def model_for(eg):
     return imgs, label, loss
 
   elif eg == 'conv_deconv_output_shape_wrong':
+
+    # if i can't get an output of 1 channel working i'll have to do 8 filter
+    # and then slice off the first (see conv_with_6_filters) trouble is the
+    # shape of the slicing is wrong in the ncs inference case... note: this might
+    # be related to the slice, which i only include because conv with 1 filter fails
+
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 128, 128, 3), name='imgs')
     dump_shape_and_product_of('imgs', imgs)
 
