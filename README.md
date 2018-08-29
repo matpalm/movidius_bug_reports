@@ -4,13 +4,23 @@ included to support [forum bug report](https://ncsforum.movidius.com/discussion/
 
 see `run_all_tests.sh` for entry point to run each test
 
-currently only `conv_with_regression` with enabled to run; with nothing at all working
-i can't be bothered keeping a general piece of code running to reproduce them all.
+for each test a bunch of the assets are checked in, see directory corresponding to the test
 
-## conv_with_regression
+includes ...
+
+* graph.pbtxt : exported tensorflow graph
+* graph.frozen.pb : frozen version of tf graph
+* graph.mv : mvncc compiled graph
+
+## conv_with_regression  (PASSING)
 
 simple conv net with single dense connection output. trained with two random
 examples; one regressing to an output of 10, the other to 5.
+
+this test works currently but is included because if we increase the img input
+size it makes the flatten output too big and we get corruptiong and the test fails.
+i actually don't care about this specific case, but include this one as a form
+of smoke test.
 
 ```
 imgs       (1, 128, 96, 3)      #36864
@@ -19,11 +29,6 @@ e2         (1, 32, 24, 64)      #49152
 flatten    (1, 49152)           #49152
 output     (1, 1)               #1
 ```
-
-all assets are included in repository;
-* graph.pbtxt : exported tensorflow graph
-* graph.frozen.pb : frozen version of tf graph
-* graph.mv : mvncc compiled graph
 
 ```
 $ tail conv_with_regression/compare_inference_on_host_and_ncs.out
@@ -35,9 +40,10 @@ ncs_positive_prediction (1,) [ 9.8203125]
 ncs_negative_prediction (1,) [ 4.94921875]
 ```
 
-## conv_with_8_filters (DISABLED)
+## conv_with_8_filters  (PASSING)
 
 example of simple network with conv layer that works.
+
 see tail of `conv_with_8_filters/compare_inference_on_host_and_ncs.out`
 
 ```
@@ -47,9 +53,13 @@ flatten    (1, 8192)            #8192
 output     (1, 1)               #1
 ```
 
-## conv_with_6_filters (DISABLED)
+## conv_with_6_filters  (FAILING)
 
-example almost the same as `conv_with_8_filters` but fails.
+example almost the same as `conv_with_8_filters` but fails. in fact anytime i
+use a conv layer with <8 filters i see this kind of failure. the target use case
+is specified in [beeNN](https://github.com/matpalm/bnn) where the networks final
+output is a 1 channel bitmap.
+
 see tail of `conv_with_6_filters/compare_inference_on_host_and_ncs.out`
 
 ```
@@ -61,7 +71,8 @@ output     (1, 1)               #1
 
 ## deconv with padding SAME (DISABLED)
 
-deconv doesn't support padding SAME.
+deconv doesn't support padding SAME. this is annoying for BNN but i can work around it.
+
 see tail of `deconv_padding_same/mvNCCompile.out`
 
 `[Error 5] Toolkit Error: Stage Details Not Supported: Wrong deconvolution output shape.`
