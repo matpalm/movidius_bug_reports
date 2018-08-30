@@ -12,6 +12,8 @@ includes ...
 * graph.frozen.pb : frozen version of tf graph
 * graph.mv : mvncc compiled graph
 
+tl;dr of all tests; use `padding='VALID'` over `padding='SAME'`
+
 ## conv_with_regression  (PASSING)
 
 simple conv net with single dense connection output. trained with two random
@@ -40,11 +42,25 @@ ncs_positive_prediction (1,) [ 9.8203125]
 ncs_negative_prediction (1,) [ 4.94921875]
 ```
 
-## conv_with_8_filters  (PASSING)
+## conv_with_8_filters_and_padding_valid  (PASSING)
 
 example of simple network with conv layer that works.
 
-see tail of `conv_with_8_filters/compare_inference_on_host_and_ncs.out`
+```
+imgs       (1, 64, 64, 3)       #12288
+e1         (1, 31, 31, 8)       #7688
+flatten    (1, 7688)            #7688
+output     (1, 1)               #1
+```
+
+```
+host_positive_prediction (1,) [ 0.95524758]
+host_negative_prediction (1,) [ 0.04408115]
+ncs_positive_prediction (1,) [ 0.95507812]
+ncs_negative_prediction (1,) [ 0.04492188]
+```
+
+## conv_with_8_filters_and_padding_same  (PASSING)
 
 ```
 imgs       (1, 64, 64, 3)       #12288
@@ -53,20 +69,49 @@ flatten    (1, 8192)            #8192
 output     (1, 1)               #1
 ```
 
-## conv_with_6_filters  (FAILING)
+```
+host_positive_prediction (1,) [ 0.96249026]
+host_negative_prediction (1,) [ 0.03636319]
+ncs_positive_prediction (1,) [ 0.96240234]
+ncs_negative_prediction (1,) [ 0.03619385]
+```
 
-example almost the same as `conv_with_8_filters` but fails. in fact anytime i
-use a conv layer with <8 filters i see this kind of failure. the target use case
-is specified in [beeNN](https://github.com/matpalm/bnn) where the networks final
-output is a 1 channel bitmap.
+## conv_with_1_filter_and_padding_valid  (PASSING)
 
-see tail of `conv_with_6_filters/compare_inference_on_host_and_ncs.out`
+a 1 filter output is the target use case for
+[beeNN](https://github.com/matpalm/bnn) where the networks final
+output is a 1 channel bitmap. with `padding='VALID'` this works
 
 ```
 imgs       (1, 64, 64, 3)       #12288
-e1         (1, 32, 32, 6)       #6144
-flatten    (1, 6144)            #6144
+e1         (1, 31, 31, 1)       #961
+flatten    (1, 961)             #961
 output     (1, 1)               #1
+```
+
+```
+host_positive_prediction (1,) [ 0.88046074]
+host_negative_prediction (1,) [ 0.11214196]
+ncs_positive_prediction (1,) [ 0.88037109]
+ncs_negative_prediction (1,) [ 0.11230469]
+```
+
+## conv_with_1_filter_and_padding_same  (FAILING)
+
+... but same network with `padding='SAME'` fails
+
+```
+imgs       (1, 64, 64, 3)       #12288
+e1         (1, 32, 32, 1)       #1024
+flatten    (1, 1024)            #1024
+output     (1, 1)               #1
+```
+
+```
+host_positive_prediction (1,) [ 0.90099496]
+host_negative_prediction (1,) [ 0.10527134]
+ncs_positive_prediction (1,) [ 0.65576172]
+ncs_negative_prediction (1,) [ 0.36425781]
 ```
 
 ## deconv with padding SAME (DISABLED)
