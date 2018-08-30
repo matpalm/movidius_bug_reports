@@ -11,7 +11,6 @@ OUTPUT_NODE_NAME=`./output_node_name.py --eg $1`
 
 ./train_and_export_graph.py --eg $1 2>&1 | tee $1/train_and_export_graph.out
 
-
 python3 -m tensorflow.python.tools.freeze_graph \
  --clear_devices \
  --input_graph $1/graph.pbtxt \

@@ -9,10 +9,10 @@ def dump_shape_and_product_of(tag, t):
     shape_product *= dim
   print("%-10s %-20s #%s" % (tag, t.get_shape(), shape_product), file=sys.stderr)
 
-def conv_with_n_filters(n):
+def conv_with_n_filters(n, padding):
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
     dump_shape_and_product_of('imgs', imgs)
-    model = slim.conv2d(imgs, num_outputs=n, kernel_size=3, stride=2, scope='e1')
+    model = slim.conv2d(imgs, num_outputs=n, kernel_size=3, stride=2, padding=padding, scope='e1')
     dump_shape_and_product_of('e1', model)
     model = slim.flatten(model)
     dump_shape_and_product_of('flatten', model)
@@ -50,15 +50,17 @@ def model_for(eg):
     loss = tf.nn.l2_loss(output - label)
     return imgs, label, loss
 
-  elif eg == 'conv_with_8_filters':
-    # this model works, but the corresponding one with _6_ filters fails :/
-    return conv_with_n_filters(n=8)
+  elif eg == 'conv_with_8_filters_and_padding_valid':
+    return conv_with_n_filters(n=8, padding='VALID')
 
-  elif eg == 'conv_with_6_filters':
-    # this model fails, but the corresponding one with _8_ filters works :/
-    # seems that anything <8 fails. including 1, which is the main case i'm
-    # wanting to use for bee nn
-    return conv_with_n_filters(n=6)
+  elif eg == 'conv_with_8_filters_and_padding_same':
+    return conv_with_n_filters(n=8, padding='SAME')
+
+  elif eg == 'conv_with_1_filter_and_padding_valid':
+    return conv_with_n_filters(n=1, padding='VALID')
+
+  elif eg == 'conv_with_1_filter_and_padding_same':
+    return conv_with_n_filters(n=1, padding='SAME')
 
   elif eg == 'deconv_padding_same':
     imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
@@ -81,7 +83,7 @@ def model_for(eg):
   elif eg == 'conv_deconv_output_shape_wrong':
 
     # if i can't get an output of 1 channel working i'll have to do 8 filter
-    # and then slice off the first (see conv_with_6_filters) trouble is the
+    # and then slice off the first (see conv_with_1_filter) trouble is the
     # shape of the slicing is wrong in the ncs inference case... note: this might
     # be related to the slice, which i only include because conv with 1 filter fails
 
