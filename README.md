@@ -124,6 +124,8 @@ see tail of `deconv_padding_same/mvNCCompile.out`
 
 ## conv_deconv_output_shape_wrong (DISABLED)
 
+TODO: redo this test, can get `num_channels=1` to work with `padding=VALID`
+
 example of conv -> conv -> deconv -> 1x1 conv where output shape is wrong.
 note: would want final 1x1 conv to have num_outputs=1 but that doesn't work (see conv_with_6_filters)
 so instead use slice to just take first channel of 8.
