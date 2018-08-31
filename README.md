@@ -122,7 +122,7 @@ see tail of `deconv_padding_same/mvNCCompile.out`
 
 `[Error 5] Toolkit Error: Stage Details Not Supported: Wrong deconvolution output shape.`
 
-## conv_deconv_output_shape_wrong (DISABLED)
+## conv_deconv_output_shape_wrong (FAILING)
 
 example of conv -> deconv -> 1x1 conv
 
