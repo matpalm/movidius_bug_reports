@@ -18,14 +18,17 @@ pos_tensor, pos_label, neg_tensor, neg_label = data.tensors_for(opts.eg)
 imgs, label, loss = models.model_for(opts.eg)
 
 # Train it to madly overfit two specific examples
-optimiser = tf.train.GradientDescentOptimizer(learning_rate=0.0001)
+optimiser = tf.train.AdamOptimizer(learning_rate=0.001)
 train_op = optimiser.minimize(loss)
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
+print("pre training; pos_loss", sess.run(loss, feed_dict={imgs: [pos_tensor], label: [pos_label]}),
+      "neg_loss", sess.run(loss, feed_dict={imgs: [neg_tensor], label: [neg_label]}))
 for _ in range(1000):
   sess.run(train_op, feed_dict={imgs: [pos_tensor], label: [pos_label]})
   sess.run(train_op, feed_dict={imgs: [neg_tensor], label: [neg_label]})
-#  print(sess.run([output, label], feed_dict={imgs: [neg_tensor], label: [neg_label]}))
+print("post training; pos_loss", sess.run(loss, feed_dict={imgs: [pos_tensor], label: [pos_label]}),
+      "neg_loss", sess.run(loss, feed_dict={imgs: [neg_tensor], label: [neg_label]}))
 
 # save model ckpt and export model graph definition
 saver = tf.train.Saver()

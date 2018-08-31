@@ -13,8 +13,8 @@ parser.add_argument('--output-node-name', type=str, help="model output node name
 opts = parser.parse_args()
 
 pos_tensor, pos_label, neg_tensor, neg_label = data.tensors_for(opts.eg)
-print("expected positive_prediction", pos_label)
-print("expected negativee_prediction", neg_label)
+print("expected positive_prediction", pos_label.flatten()[:10])
+print("expected negativee_prediction", neg_label.flatten()[:10])
 
 # check host
 
@@ -29,8 +29,8 @@ model_output = tf.get_default_graph().get_tensor_by_name("import/%s:0" % opts.ou
 with tf.Session() as sess:
   host_positive_prediction = sess.run(model_output, feed_dict={imgs: [pos_tensor]})[0]
   host_negative_prediction = sess.run(model_output, feed_dict={imgs: [neg_tensor]})[0]
-print("host_positive_prediction", host_positive_prediction.shape, host_positive_prediction)
-print("host_negative_prediction", host_negative_prediction.shape, host_negative_prediction)
+print("host_positive_prediction", host_positive_prediction.shape, host_positive_prediction.flatten()[:10])
+print("host_negative_prediction", host_negative_prediction.shape, host_negative_prediction.flatten()[:10])
 
 # check on ncs
 
@@ -52,8 +52,8 @@ def run_on_ncs(input):
 
 ncs_positive_prediction = run_on_ncs(pos_tensor)
 ncs_negative_prediction = run_on_ncs(neg_tensor)
-print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_prediction)
-print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction)
+print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_prediction.flatten()[:10])
+print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction.flatten()[:10])
 
 input_fifo.destroy()
 output_fifo.destroy()

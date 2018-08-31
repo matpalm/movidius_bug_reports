@@ -5,8 +5,8 @@ set -ex
 
 ./test.sh conv_with_8_filters_and_padding_valid  # PASS
 ./test.sh conv_with_8_filters_and_padding_same   # PASS
-./test.sh conv_with_1_filter_and_padding_valid   # FAIL; sometimes nan, sometimes inaccurate
-./test.sh conv_with_1_filter_and_padding_same    # PASS
+./test.sh conv_with_1_filter_and_padding_valid   # PASS
+./test.sh conv_with_1_filter_and_padding_same    # FAILS sometimes; nan, sometimes inaccurate
 
 #./test.sh deconv_padding_same            # not going to be fixed for a bit
 

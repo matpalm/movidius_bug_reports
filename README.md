@@ -124,18 +124,23 @@ see tail of `deconv_padding_same/mvNCCompile.out`
 
 ## conv_deconv_output_shape_wrong (DISABLED)
 
-TODO: redo this test, can get `num_channels=1` to work with `padding=VALID`
-
-example of conv -> conv -> deconv -> 1x1 conv where output shape is wrong.
-note: would want final 1x1 conv to have num_outputs=1 but that doesn't work (see conv_with_6_filters)
-so instead use slice to just take first channel of 8.
-
-fails with a incorrect shape coming from NCS model. returns (274625,) instead of expected (65, 65, 1)
+example of conv -> deconv -> 1x1 conv
 
 ```
-imgs       (1, 128, 128, 3)     #49152
-e1         (1, 64, 64, 8)       #32768
-e2         (1, 32, 32, 8)       #8192
-d1         (1, 65, 65, 8)       #33800
-output     (1, 65, 65, 1)       #4225
+imgs       (1, 64, 64, 3)       #12288
+e1         (1, 31, 31, 8)       #7688
+e2         (1, 15, 15, 16)      #3600
+d1         (1, 31, 31, 8)       #7688
+output     (1, 31, 31, 1)       #961
 ```
+
+mvNCCompile seems to understand output shape...
+
+```
+shape: (1, 64, 64, 3)
+res.shape:  (1, 31, 31, 1)
+TensorFlow output shape:  (31, 31, 1)
+```
+
+... but output from `graph.queue_inference_with_fifo_elem` returns tensor with
+shape `(29791,)` instead of expected `(31, 31, 1)`
