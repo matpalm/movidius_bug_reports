@@ -122,7 +122,7 @@ see tail of `deconv_padding_same/mvNCCompile.out`
 
 `[Error 5] Toolkit Error: Stage Details Not Supported: Wrong deconvolution output shape.`
 
-## conv_deconv_output_shape_wrong (FAILING)
+## conv_deconv_output_shape_wrong (PASSING, with hack)
 
 example of conv -> deconv -> 1x1 conv
 
@@ -144,3 +144,8 @@ TensorFlow output shape:  (31, 31, 1)
 
 ... but output from `graph.queue_inference_with_fifo_elem` returns tensor with
 shape `(29791,)` instead of expected `(31, 31, 1)`
+
+*but* as a workaround i can slice off the first 961 entries of the 29791,
+reshape to (31,31,1), and it seems to work...
+
+`ncs_positive_prediction = ncs_positive_prediction[:31*31].reshape((31,31,1))`

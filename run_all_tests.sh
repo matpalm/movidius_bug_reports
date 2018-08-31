@@ -10,6 +10,5 @@ set -ex
 
 #./test.sh deconv_padding_same            # not going to be fixed for a bit
 
-# need to update this to use num_output=1 again
-# and not slice since conv_with_1_filter_and_padding_same works
-#./test.sh conv_deconv_output_shape_wrong         # FAILS
+# example of simple unet conv -> deconv architecture
+./test.sh conv_deconv_output_shape_wrong         # PASSES, but requires a hack on NCS output

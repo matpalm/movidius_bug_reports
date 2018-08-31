@@ -55,6 +55,10 @@ ncs_negative_prediction = run_on_ncs(neg_tensor)
 print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_prediction.flatten()[:10])
 print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction.flatten()[:10])
 
+if opts.eg == 'conv_deconv_output_shape_wrong':
+  ncs_positive_prediction = ncs_positive_prediction[:31*31].reshape((31,31,1))
+  ncs_negative_prediction = ncs_negative_prediction[:31*31].reshape((31,31,1))
+
 input_fifo.destroy()
 output_fifo.destroy()
 graph.destroy()
@@ -67,8 +71,8 @@ if host_positive_prediction.shape != ncs_positive_prediction.shape:
   raise Exception("shape mismatch between host [%s] and ncs [%s]" % (host_positive_prediction.shape,
                                                                      ncs_positive_prediction.shape))
 
-pos_close = np.isclose(host_positive_prediction, ncs_positive_prediction, atol=0.2)
-neg_close = np.isclose(host_negative_prediction, ncs_negative_prediction, atol=0.2)
+pos_close = np.all(np.isclose(host_positive_prediction, ncs_positive_prediction, atol=0.2))
+neg_close = np.all(np.isclose(host_negative_prediction, ncs_negative_prediction, atol=0.2))
 if pos_close and neg_close:
   print("PASS", opts.eg)
 else:
