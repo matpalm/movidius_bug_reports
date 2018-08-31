@@ -1,17 +1,19 @@
 WARNING:tensorflow:From /usr/lib/python3.5/site-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
 Instructions for updating:
 Use the retry module or similar alternatives.
-2018-08-31 11:40:23.339846: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
+2018-08-31 12:47:05.974252: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
 /usr/lib/python3.5/site-packages/tensorflow/python/util/tf_inspect.py:45: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
   if d.decorator_argspec is not None), _inspect.getargspec(target))
 expected positive_prediction [ 1.  1.  1.  1.  1.  1.  1.  1.  1.  1.]
 expected negativee_prediction [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
-host_positive_prediction (31, 31, 1) [ 0.82257813  0.84133476  0.96329367  0.89458942  0.99707401  0.99655187
-  0.98954988  0.75753373  0.97979647  0.9736439 ]
-host_negative_prediction (31, 31, 1) [ 0.14814721  0.08701387  0.01509712  0.06138716  0.01137136  0.07860773
-  0.02660925  0.12637508  0.08660987  0.24794538]
-ncs_positive_prediction (29791,) [ 0.82226562  0.84130859  0.96337891  0.89453125  0.99707031  0.99609375
-  0.98925781  0.75634766  0.97998047  0.97314453]
-ncs_negative_prediction (29791,) [ 0.14709473  0.08636475  0.01493835  0.06130981  0.01133728  0.07836914
-  0.02648926  0.12609863  0.08612061  0.24707031]
+host_positive_prediction (63, 63, 1) [ 0.97678876  0.98980439  0.99966598  0.99188471  0.99997425  0.99976248
+  0.99998212  0.99011564  0.99995232  0.9996025 ]
+host_negative_prediction (63, 63, 1) [  1.20169315e-02   2.19633942e-03   7.96480890e-05   4.66987578e-04
+   4.27716850e-06   4.53518260e-05   2.84780454e-05   6.00711443e-03
+   8.44651149e-05   2.45424220e-04]
+ncs_positive_prediction (250047,) [ 0.97705078  0.99023438  1.          0.9921875   1.          1.          1.
+  0.99023438  1.          1.        ]
+ncs_negative_prediction (250047,) [  1.19705200e-02   2.18391418e-03   7.99894333e-05   4.67300415e-04
+   0.00000000e+00   0.00000000e+00   0.00000000e+00   6.09588623e-03
+   8.72015953e-05   2.50816345e-04]
 PASS conv_deconv_output_shape_wrong

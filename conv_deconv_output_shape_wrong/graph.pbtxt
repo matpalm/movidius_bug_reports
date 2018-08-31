@@ -15,10 +15,10 @@ node {
           size: 1
         }
         dim {
-          size: 64
+          size: 128
         }
         dim {
-          size: 64
+          size: 128
         }
         dim {
           size: 3
@@ -1168,6 +1168,576 @@ node {
   }
 }
 node {
+  name: "e3/weights/Initializer/random_uniform/shape"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Initializer/random_uniform/min"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: -0.1178511306643486
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Initializer/random_uniform/max"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.1178511306643486
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Initializer/random_uniform/RandomUniform"
+  op: "RandomUniform"
+  input: "e3/weights/Initializer/random_uniform/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "e3/weights/Initializer/random_uniform/sub"
+  op: "Sub"
+  input: "e3/weights/Initializer/random_uniform/max"
+  input: "e3/weights/Initializer/random_uniform/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Initializer/random_uniform/mul"
+  op: "Mul"
+  input: "e3/weights/Initializer/random_uniform/RandomUniform"
+  input: "e3/weights/Initializer/random_uniform/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Initializer/random_uniform"
+  op: "Add"
+  input: "e3/weights/Initializer/random_uniform/mul"
+  input: "e3/weights/Initializer/random_uniform/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 3
+        }
+        dim {
+          size: 3
+        }
+        dim {
+          size: 16
+        }
+        dim {
+          size: 32
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "e3/weights/Assign"
+  op: "Assign"
+  input: "e3/weights"
+  input: "e3/weights/Initializer/random_uniform"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/weights/read"
+  op: "Identity"
+  input: "e3/weights"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 32
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Initializer/zeros"
+  op: "Fill"
+  input: "e3/biases/Initializer/zeros/shape_as_tensor"
+  input: "e3/biases/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "e3/biases"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 32
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "e3/biases/Assign"
+  op: "Assign"
+  input: "e3/biases"
+  input: "e3/biases/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/biases/read"
+  op: "Identity"
+  input: "e3/biases"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+}
+node {
+  name: "e3/dilation_rate"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 2
+          }
+        }
+        tensor_content: "\001\000\000\000\001\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "e3/Conv2D"
+  op: "Conv2D"
+  input: "e2/Relu"
+  input: "e3/weights/read"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+  attr {
+    key: "dilations"
+    value {
+      list {
+        i: 1
+        i: 1
+        i: 1
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "padding"
+    value {
+      s: "VALID"
+    }
+  }
+  attr {
+    key: "strides"
+    value {
+      list {
+        i: 1
+        i: 2
+        i: 2
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "use_cudnn_on_gpu"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/BiasAdd"
+  op: "BiasAdd"
+  input: "e3/Conv2D"
+  input: "e3/biases/read"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+}
+node {
+  name: "e3/Relu"
+  op: "Relu"
+  input: "e3/BiasAdd"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
   name: "d1/weights/Initializer/random_uniform/shape"
   op: "Const"
   attr {
@@ -1194,7 +1764,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
       }
     }
   }
@@ -1223,7 +1793,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.1666666716337204
+        float_val: -0.1178511306643486
       }
     }
   }
@@ -1252,7 +1822,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.1666666716337204
+        float_val: 0.1178511306643486
       }
     }
   }
@@ -1388,10 +1958,10 @@ node {
           size: 3
         }
         dim {
-          size: 8
+          size: 16
         }
         dim {
-          size: 16
+          size: 32
         }
       }
     }
@@ -1481,7 +2051,7 @@ node {
             size: 1
           }
         }
-        int_val: 8
+        int_val: 16
       }
     }
   }
@@ -1569,7 +2139,7 @@ node {
     value {
       shape {
         dim {
-          size: 8
+          size: 16
         }
       }
     }
@@ -1651,7 +2221,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\017\000\000\000\017\000\000\000\020\000\000\000"
+        tensor_content: "\001\000\000\000\017\000\000\000\017\000\000\000 \000\000\000"
       }
     }
   }
@@ -2170,7 +2740,7 @@ node {
         dtype: DT_INT32
         tensor_shape {
         }
-        int_val: 8
+        int_val: 16
       }
     }
   }
@@ -2206,7 +2776,7 @@ node {
   op: "Conv2DBackpropInput"
   input: "d1/stack"
   input: "d1/weights/read"
-  input: "e2/Relu"
+  input: "e3/Relu"
   attr {
     key: "T"
     value {
@@ -2276,6 +2846,1122 @@ node {
   name: "d1/Relu"
   op: "Relu"
   input: "d1/BiasAdd"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform/shape"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform/min"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: -0.1666666716337204
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform/max"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.1666666716337204
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform/RandomUniform"
+  op: "RandomUniform"
+  input: "d2/weights/Initializer/random_uniform/shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform/sub"
+  op: "Sub"
+  input: "d2/weights/Initializer/random_uniform/max"
+  input: "d2/weights/Initializer/random_uniform/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform/mul"
+  op: "Mul"
+  input: "d2/weights/Initializer/random_uniform/RandomUniform"
+  input: "d2/weights/Initializer/random_uniform/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Initializer/random_uniform"
+  op: "Add"
+  input: "d2/weights/Initializer/random_uniform/mul"
+  input: "d2/weights/Initializer/random_uniform/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 3
+        }
+        dim {
+          size: 3
+        }
+        dim {
+          size: 8
+        }
+        dim {
+          size: 16
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "d2/weights/Assign"
+  op: "Assign"
+  input: "d2/weights"
+  input: "d2/weights/Initializer/random_uniform"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/weights/read"
+  op: "Identity"
+  input: "d2/weights"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 8
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Initializer/zeros"
+  op: "Fill"
+  input: "d2/biases/Initializer/zeros/shape_as_tensor"
+  input: "d2/biases/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/biases"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 8
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "d2/biases/Assign"
+  op: "Assign"
+  input: "d2/biases"
+  input: "d2/biases/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/biases/read"
+  op: "Identity"
+  input: "d2/biases"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+}
+node {
+  name: "d2/Shape"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\020\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice/stack"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice/stack_1"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice/stack_2"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice"
+  op: "StridedSlice"
+  input: "d2/Shape"
+  input: "d2/strided_slice/stack"
+  input: "d2/strided_slice/stack_1"
+  input: "d2/strided_slice/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_1/stack"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_1/stack_1"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_1/stack_2"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_1"
+  op: "StridedSlice"
+  input: "d2/Shape"
+  input: "d2/strided_slice_1/stack"
+  input: "d2/strided_slice_1/stack_1"
+  input: "d2/strided_slice_1/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_2/stack"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_2/stack_1"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 3
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_2/stack_2"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/strided_slice_2"
+  op: "StridedSlice"
+  input: "d2/Shape"
+  input: "d2/strided_slice_2/stack"
+  input: "d2/strided_slice_2/stack_1"
+  input: "d2/strided_slice_2/stack_2"
+  attr {
+    key: "Index"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "begin_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "ellipsis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "end_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "new_axis_mask"
+    value {
+      i: 0
+    }
+  }
+  attr {
+    key: "shrink_axis_mask"
+    value {
+      i: 1
+    }
+  }
+}
+node {
+  name: "d2/mul/y"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "d2/mul"
+  op: "Mul"
+  input: "d2/strided_slice_1"
+  input: "d2/mul/y"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/add/y"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/add"
+  op: "Add"
+  input: "d2/mul"
+  input: "d2/add/y"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/mul_1/y"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 2
+      }
+    }
+  }
+}
+node {
+  name: "d2/mul_1"
+  op: "Mul"
+  input: "d2/strided_slice_2"
+  input: "d2/mul_1/y"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/add_1/y"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 1
+      }
+    }
+  }
+}
+node {
+  name: "d2/add_1"
+  op: "Add"
+  input: "d2/mul_1"
+  input: "d2/add_1/y"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/stack/3"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 8
+      }
+    }
+  }
+}
+node {
+  name: "d2/stack"
+  op: "Pack"
+  input: "d2/strided_slice"
+  input: "d2/add"
+  input: "d2/add_1"
+  input: "d2/stack/3"
+  attr {
+    key: "N"
+    value {
+      i: 4
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
+    }
+  }
+}
+node {
+  name: "d2/conv2d_transpose"
+  op: "Conv2DBackpropInput"
+  input: "d2/stack"
+  input: "d2/weights/read"
+  input: "d1/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+  attr {
+    key: "dilations"
+    value {
+      list {
+        i: 1
+        i: 1
+        i: 1
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "padding"
+    value {
+      s: "VALID"
+    }
+  }
+  attr {
+    key: "strides"
+    value {
+      list {
+        i: 1
+        i: 2
+        i: 2
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "use_cudnn_on_gpu"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/BiasAdd"
+  op: "BiasAdd"
+  input: "d2/conv2d_transpose"
+  input: "d2/biases/read"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+}
+node {
+  name: "d2/Relu"
+  op: "Relu"
+  input: "d2/BiasAdd"
   attr {
     key: "T"
     value {
@@ -2775,7 +4461,7 @@ node {
 node {
   name: "logits/Conv2D"
   op: "Conv2D"
-  input: "d1/Relu"
+  input: "d2/Relu"
   input: "logits/weights/read"
   attr {
     key: "T"
@@ -2870,10 +4556,10 @@ node {
           size: 1
         }
         dim {
-          size: 31
+          size: 63
         }
         dim {
-          size: 31
+          size: 63
         }
         dim {
           size: 1
@@ -2901,7 +4587,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\001\000\000\000"
+        tensor_content: "\001\000\000\000?\000\000\000?\000\000\000\001\000\000\000"
       }
     }
   }
@@ -3222,7 +4908,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\001\000\000\000"
+        tensor_content: "\001\000\000\000?\000\000\000?\000\000\000\001\000\000\000"
       }
     }
   }
@@ -3261,7 +4947,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 961.0
+        float_val: 3969.0
       }
     }
   }
@@ -3456,7 +5142,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\001\000\000\000"
+        tensor_content: "\001\000\000\000?\000\000\000?\000\000\000\001\000\000\000"
       }
     }
   }
@@ -3673,7 +5359,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\001\000\000\000"
+        tensor_content: "\001\000\000\000?\000\000\000?\000\000\000\001\000\000\000"
       }
     }
   }
@@ -3894,7 +5580,7 @@ node {
 node {
   name: "gradients/logits/Conv2D_grad/ShapeN"
   op: "ShapeN"
-  input: "d1/Relu"
+  input: "d2/Relu"
   input: "logits/weights/read"
   attr {
     key: "N"
@@ -3934,7 +5620,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\010\000\000\000"
+        tensor_content: "\001\000\000\000?\000\000\000?\000\000\000\010\000\000\000"
       }
     }
   }
@@ -4019,7 +5705,7 @@ node {
 node {
   name: "gradients/logits/Conv2D_grad/Conv2DBackpropFilter"
   op: "Conv2DBackpropFilter"
-  input: "d1/Relu"
+  input: "d2/Relu"
   input: "gradients/logits/Conv2D_grad/Const_1"
   input: "gradients/logits/BiasAdd_grad/tuple/control_dependency"
   attr {
@@ -4116,9 +5802,259 @@ node {
   }
 }
 node {
-  name: "gradients/d1/Relu_grad/ReluGrad"
+  name: "gradients/d2/Relu_grad/ReluGrad"
   op: "ReluGrad"
   input: "gradients/logits/Conv2D_grad/tuple/control_dependency"
+  input: "d2/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "gradients/d2/BiasAdd_grad/BiasAddGrad"
+  op: "BiasAddGrad"
+  input: "gradients/d2/Relu_grad/ReluGrad"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+}
+node {
+  name: "gradients/d2/BiasAdd_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/d2/Relu_grad/ReluGrad"
+  input: "^gradients/d2/BiasAdd_grad/BiasAddGrad"
+}
+node {
+  name: "gradients/d2/BiasAdd_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/d2/Relu_grad/ReluGrad"
+  input: "^gradients/d2/BiasAdd_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/d2/Relu_grad/ReluGrad"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/d2/BiasAdd_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/d2/BiasAdd_grad/BiasAddGrad"
+  input: "^gradients/d2/BiasAdd_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/d2/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/d2/conv2d_transpose_grad/Shape"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/d2/conv2d_transpose_grad/Conv2DBackpropFilter"
+  op: "Conv2DBackpropFilter"
+  input: "gradients/d2/BiasAdd_grad/tuple/control_dependency"
+  input: "gradients/d2/conv2d_transpose_grad/Shape"
+  input: "d1/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+  attr {
+    key: "dilations"
+    value {
+      list {
+        i: 1
+        i: 1
+        i: 1
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "padding"
+    value {
+      s: "VALID"
+    }
+  }
+  attr {
+    key: "strides"
+    value {
+      list {
+        i: 1
+        i: 2
+        i: 2
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "use_cudnn_on_gpu"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "gradients/d2/conv2d_transpose_grad/Conv2D"
+  op: "Conv2D"
+  input: "gradients/d2/BiasAdd_grad/tuple/control_dependency"
+  input: "d2/weights/read"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+  attr {
+    key: "dilations"
+    value {
+      list {
+        i: 1
+        i: 1
+        i: 1
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "padding"
+    value {
+      s: "VALID"
+    }
+  }
+  attr {
+    key: "strides"
+    value {
+      list {
+        i: 1
+        i: 2
+        i: 2
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "use_cudnn_on_gpu"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "gradients/d2/conv2d_transpose_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/d2/conv2d_transpose_grad/Conv2DBackpropFilter"
+  input: "^gradients/d2/conv2d_transpose_grad/Conv2D"
+}
+node {
+  name: "gradients/d2/conv2d_transpose_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/d2/conv2d_transpose_grad/Conv2DBackpropFilter"
+  input: "^gradients/d2/conv2d_transpose_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/d2/conv2d_transpose_grad/Conv2DBackpropFilter"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/d2/conv2d_transpose_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/d2/conv2d_transpose_grad/Conv2D"
+  input: "^gradients/d2/conv2d_transpose_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/d2/conv2d_transpose_grad/Conv2D"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/d1/Relu_grad/ReluGrad"
+  op: "ReluGrad"
+  input: "gradients/d2/conv2d_transpose_grad/tuple/control_dependency_1"
   input: "d1/Relu"
   attr {
     key: "T"
@@ -4209,7 +6145,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
       }
     }
   }
@@ -4219,7 +6155,7 @@ node {
   op: "Conv2DBackpropFilter"
   input: "gradients/d1/BiasAdd_grad/tuple/control_dependency"
   input: "gradients/d1/conv2d_transpose_grad/Shape"
-  input: "e2/Relu"
+  input: "e3/Relu"
   attr {
     key: "T"
     value {
@@ -4366,9 +6302,308 @@ node {
   }
 }
 node {
-  name: "gradients/e2/Relu_grad/ReluGrad"
+  name: "gradients/e3/Relu_grad/ReluGrad"
   op: "ReluGrad"
   input: "gradients/d1/conv2d_transpose_grad/tuple/control_dependency_1"
+  input: "e3/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+}
+node {
+  name: "gradients/e3/BiasAdd_grad/BiasAddGrad"
+  op: "BiasAddGrad"
+  input: "gradients/e3/Relu_grad/ReluGrad"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+}
+node {
+  name: "gradients/e3/BiasAdd_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/e3/Relu_grad/ReluGrad"
+  input: "^gradients/e3/BiasAdd_grad/BiasAddGrad"
+}
+node {
+  name: "gradients/e3/BiasAdd_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/e3/Relu_grad/ReluGrad"
+  input: "^gradients/e3/BiasAdd_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/e3/Relu_grad/ReluGrad"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/e3/BiasAdd_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/e3/BiasAdd_grad/BiasAddGrad"
+  input: "^gradients/e3/BiasAdd_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/e3/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/ShapeN"
+  op: "ShapeN"
+  input: "e2/Relu"
+  input: "e3/weights/read"
+  attr {
+    key: "N"
+    value {
+      i: 2
+    }
+  }
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/Const"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\020\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/Const_1"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/Conv2DBackpropInput"
+  op: "Conv2DBackpropInput"
+  input: "gradients/e3/Conv2D_grad/Const"
+  input: "e3/weights/read"
+  input: "gradients/e3/BiasAdd_grad/tuple/control_dependency"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+  attr {
+    key: "dilations"
+    value {
+      list {
+        i: 1
+        i: 1
+        i: 1
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "padding"
+    value {
+      s: "VALID"
+    }
+  }
+  attr {
+    key: "strides"
+    value {
+      list {
+        i: 1
+        i: 2
+        i: 2
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "use_cudnn_on_gpu"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/Conv2DBackpropFilter"
+  op: "Conv2DBackpropFilter"
+  input: "e2/Relu"
+  input: "gradients/e3/Conv2D_grad/Const_1"
+  input: "gradients/e3/BiasAdd_grad/tuple/control_dependency"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "data_format"
+    value {
+      s: "NHWC"
+    }
+  }
+  attr {
+    key: "dilations"
+    value {
+      list {
+        i: 1
+        i: 1
+        i: 1
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "padding"
+    value {
+      s: "VALID"
+    }
+  }
+  attr {
+    key: "strides"
+    value {
+      list {
+        i: 1
+        i: 2
+        i: 2
+        i: 1
+      }
+    }
+  }
+  attr {
+    key: "use_cudnn_on_gpu"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^gradients/e3/Conv2D_grad/Conv2DBackpropInput"
+  input: "^gradients/e3/Conv2D_grad/Conv2DBackpropFilter"
+}
+node {
+  name: "gradients/e3/Conv2D_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "gradients/e3/Conv2D_grad/Conv2DBackpropInput"
+  input: "^gradients/e3/Conv2D_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/e3/Conv2D_grad/Conv2DBackpropInput"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/e3/Conv2D_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "gradients/e3/Conv2D_grad/Conv2DBackpropFilter"
+  input: "^gradients/e3/Conv2D_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@gradients/e3/Conv2D_grad/Conv2DBackpropFilter"
+      }
+    }
+  }
+}
+node {
+  name: "gradients/e2/Relu_grad/ReluGrad"
+  op: "ReluGrad"
+  input: "gradients/e3/Conv2D_grad/tuple/control_dependency"
   input: "e2/Relu"
   attr {
     key: "T"
@@ -4483,7 +6718,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000\037\000\000\000\037\000\000\000\010\000\000\000"
+        tensor_content: "\001\000\000\000?\000\000\000?\000\000\000\010\000\000\000"
       }
     }
   }
@@ -4782,7 +7017,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\001\000\000\000@\000\000\000@\000\000\000\003\000\000\000"
+        tensor_content: "\001\000\000\000\200\000\000\000\200\000\000\000\003\000\000\000"
       }
     }
   }
@@ -6658,6 +8893,736 @@ node {
   }
 }
 node {
+  name: "e3/weights/Adam/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam/Initializer/zeros"
+  op: "Fill"
+  input: "e3/weights/Adam/Initializer/zeros/shape_as_tensor"
+  input: "e3/weights/Adam/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 3
+        }
+        dim {
+          size: 3
+        }
+        dim {
+          size: 16
+        }
+        dim {
+          size: 32
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam/Assign"
+  op: "Assign"
+  input: "e3/weights/Adam"
+  input: "e3/weights/Adam/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam/read"
+  op: "Identity"
+  input: "e3/weights/Adam"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam_1/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam_1/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam_1/Initializer/zeros"
+  op: "Fill"
+  input: "e3/weights/Adam_1/Initializer/zeros/shape_as_tensor"
+  input: "e3/weights/Adam_1/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam_1"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 3
+        }
+        dim {
+          size: 3
+        }
+        dim {
+          size: 16
+        }
+        dim {
+          size: 32
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam_1/Assign"
+  op: "Assign"
+  input: "e3/weights/Adam_1"
+  input: "e3/weights/Adam_1/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/weights/Adam_1/read"
+  op: "Identity"
+  input: "e3/weights/Adam_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 32
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam/Initializer/zeros"
+  op: "Fill"
+  input: "e3/biases/Adam/Initializer/zeros/shape_as_tensor"
+  input: "e3/biases/Adam/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 32
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam/Assign"
+  op: "Assign"
+  input: "e3/biases/Adam"
+  input: "e3/biases/Adam/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam/read"
+  op: "Identity"
+  input: "e3/biases/Adam"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam_1/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 32
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam_1/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam_1/Initializer/zeros"
+  op: "Fill"
+  input: "e3/biases/Adam_1/Initializer/zeros/shape_as_tensor"
+  input: "e3/biases/Adam_1/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam_1"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 32
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam_1/Assign"
+  op: "Assign"
+  input: "e3/biases/Adam_1"
+  input: "e3/biases/Adam_1/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "e3/biases/Adam_1/read"
+  op: "Identity"
+  input: "e3/biases/Adam_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+}
+node {
   name: "d1/weights/Adam/Initializer/zeros/shape_as_tensor"
   op: "Const"
   attr {
@@ -6684,7 +9649,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
       }
     }
   }
@@ -6778,10 +9743,10 @@ node {
           size: 3
         }
         dim {
-          size: 8
+          size: 16
         }
         dim {
-          size: 16
+          size: 32
         }
       }
     }
@@ -6871,7 +9836,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+        tensor_content: "\003\000\000\000\003\000\000\000\020\000\000\000 \000\000\000"
       }
     }
   }
@@ -6965,10 +9930,10 @@ node {
           size: 3
         }
         dim {
-          size: 8
+          size: 16
         }
         dim {
-          size: 16
+          size: 32
         }
       }
     }
@@ -7058,7 +10023,7 @@ node {
             size: 1
           }
         }
-        int_val: 8
+        int_val: 16
       }
     }
   }
@@ -7146,7 +10111,7 @@ node {
     value {
       shape {
         dim {
-          size: 8
+          size: 16
         }
       }
     }
@@ -7236,7 +10201,7 @@ node {
             size: 1
           }
         }
-        int_val: 8
+        int_val: 16
       }
     }
   }
@@ -7324,7 +10289,7 @@ node {
     value {
       shape {
         dim {
-          size: 8
+          size: 16
         }
       }
     }
@@ -7383,6 +10348,736 @@ node {
     value {
       list {
         s: "loc:@d1/biases"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam/Initializer/zeros"
+  op: "Fill"
+  input: "d2/weights/Adam/Initializer/zeros/shape_as_tensor"
+  input: "d2/weights/Adam/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 3
+        }
+        dim {
+          size: 3
+        }
+        dim {
+          size: 8
+        }
+        dim {
+          size: 16
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam/Assign"
+  op: "Assign"
+  input: "d2/weights/Adam"
+  input: "d2/weights/Adam/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam/read"
+  op: "Identity"
+  input: "d2/weights/Adam"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam_1/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 4
+          }
+        }
+        tensor_content: "\003\000\000\000\003\000\000\000\010\000\000\000\020\000\000\000"
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam_1/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam_1/Initializer/zeros"
+  op: "Fill"
+  input: "d2/weights/Adam_1/Initializer/zeros/shape_as_tensor"
+  input: "d2/weights/Adam_1/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam_1"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 3
+        }
+        dim {
+          size: 3
+        }
+        dim {
+          size: 8
+        }
+        dim {
+          size: 16
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam_1/Assign"
+  op: "Assign"
+  input: "d2/weights/Adam_1"
+  input: "d2/weights/Adam_1/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/weights/Adam_1/read"
+  op: "Identity"
+  input: "d2/weights/Adam_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 8
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam/Initializer/zeros"
+  op: "Fill"
+  input: "d2/biases/Adam/Initializer/zeros/shape_as_tensor"
+  input: "d2/biases/Adam/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 8
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam/Assign"
+  op: "Assign"
+  input: "d2/biases/Adam"
+  input: "d2/biases/Adam/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam/read"
+  op: "Identity"
+  input: "d2/biases/Adam"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam_1/Initializer/zeros/shape_as_tensor"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 8
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam_1/Initializer/zeros/Const"
+  op: "Const"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam_1/Initializer/zeros"
+  op: "Fill"
+  input: "d2/biases/Adam_1/Initializer/zeros/shape_as_tensor"
+  input: "d2/biases/Adam_1/Initializer/zeros/Const"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "index_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam_1"
+  op: "VariableV2"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: 8
+        }
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam_1/Assign"
+  op: "Assign"
+  input: "d2/biases/Adam_1"
+  input: "d2/biases/Adam_1/Initializer/zeros"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "d2/biases/Adam_1/read"
+  op: "Identity"
+  input: "d2/biases/Adam_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
       }
     }
   }
@@ -8362,6 +12057,86 @@ node {
   }
 }
 node {
+  name: "Adam/update_e3/weights/ApplyAdam"
+  op: "ApplyAdam"
+  input: "e3/weights"
+  input: "e3/weights/Adam"
+  input: "e3/weights/Adam_1"
+  input: "beta1_power/read"
+  input: "beta2_power/read"
+  input: "Adam/learning_rate"
+  input: "Adam/beta1"
+  input: "Adam/beta2"
+  input: "Adam/epsilon"
+  input: "gradients/e3/Conv2D_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "use_nesterov"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "Adam/update_e3/biases/ApplyAdam"
+  op: "ApplyAdam"
+  input: "e3/biases"
+  input: "e3/biases/Adam"
+  input: "e3/biases/Adam_1"
+  input: "beta1_power/read"
+  input: "beta2_power/read"
+  input: "Adam/learning_rate"
+  input: "Adam/beta1"
+  input: "Adam/beta2"
+  input: "Adam/epsilon"
+  input: "gradients/e3/BiasAdd_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "use_nesterov"
+    value {
+      b: false
+    }
+  }
+}
+node {
   name: "Adam/update_d1/weights/ApplyAdam"
   op: "ApplyAdam"
   input: "d1/weights"
@@ -8425,6 +12200,86 @@ node {
     value {
       list {
         s: "loc:@d1/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "use_nesterov"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "Adam/update_d2/weights/ApplyAdam"
+  op: "ApplyAdam"
+  input: "d2/weights"
+  input: "d2/weights/Adam"
+  input: "d2/weights/Adam_1"
+  input: "beta1_power/read"
+  input: "beta2_power/read"
+  input: "Adam/learning_rate"
+  input: "Adam/beta1"
+  input: "Adam/beta2"
+  input: "Adam/epsilon"
+  input: "gradients/d2/conv2d_transpose_grad/tuple/control_dependency"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: false
+    }
+  }
+  attr {
+    key: "use_nesterov"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "Adam/update_d2/biases/ApplyAdam"
+  op: "ApplyAdam"
+  input: "d2/biases"
+  input: "d2/biases/Adam"
+  input: "d2/biases/Adam_1"
+  input: "beta1_power/read"
+  input: "beta2_power/read"
+  input: "Adam/learning_rate"
+  input: "Adam/beta1"
+  input: "Adam/beta2"
+  input: "Adam/epsilon"
+  input: "gradients/d2/BiasAdd_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
       }
     }
   }
@@ -8530,8 +12385,12 @@ node {
   input: "^Adam/update_e1/biases/ApplyAdam"
   input: "^Adam/update_e2/weights/ApplyAdam"
   input: "^Adam/update_e2/biases/ApplyAdam"
+  input: "^Adam/update_e3/weights/ApplyAdam"
+  input: "^Adam/update_e3/biases/ApplyAdam"
   input: "^Adam/update_d1/weights/ApplyAdam"
   input: "^Adam/update_d1/biases/ApplyAdam"
+  input: "^Adam/update_d2/weights/ApplyAdam"
+  input: "^Adam/update_d2/biases/ApplyAdam"
   input: "^Adam/update_logits/weights/ApplyAdam"
   input: "^Adam/update_logits/biases/ApplyAdam"
   attr {
@@ -8590,8 +12449,12 @@ node {
   input: "^Adam/update_e1/biases/ApplyAdam"
   input: "^Adam/update_e2/weights/ApplyAdam"
   input: "^Adam/update_e2/biases/ApplyAdam"
+  input: "^Adam/update_e3/weights/ApplyAdam"
+  input: "^Adam/update_e3/biases/ApplyAdam"
   input: "^Adam/update_d1/weights/ApplyAdam"
   input: "^Adam/update_d1/biases/ApplyAdam"
+  input: "^Adam/update_d2/weights/ApplyAdam"
+  input: "^Adam/update_d2/biases/ApplyAdam"
   input: "^Adam/update_logits/weights/ApplyAdam"
   input: "^Adam/update_logits/biases/ApplyAdam"
   attr {
@@ -8648,8 +12511,12 @@ node {
   input: "^Adam/update_e1/biases/ApplyAdam"
   input: "^Adam/update_e2/weights/ApplyAdam"
   input: "^Adam/update_e2/biases/ApplyAdam"
+  input: "^Adam/update_e3/weights/ApplyAdam"
+  input: "^Adam/update_e3/biases/ApplyAdam"
   input: "^Adam/update_d1/weights/ApplyAdam"
   input: "^Adam/update_d1/biases/ApplyAdam"
+  input: "^Adam/update_d2/weights/ApplyAdam"
+  input: "^Adam/update_d2/biases/ApplyAdam"
   input: "^Adam/update_logits/weights/ApplyAdam"
   input: "^Adam/update_logits/biases/ApplyAdam"
   input: "^Adam/Assign"
@@ -8662,8 +12529,12 @@ node {
   input: "^e1/biases/Assign"
   input: "^e2/weights/Assign"
   input: "^e2/biases/Assign"
+  input: "^e3/weights/Assign"
+  input: "^e3/biases/Assign"
   input: "^d1/weights/Assign"
   input: "^d1/biases/Assign"
+  input: "^d2/weights/Assign"
+  input: "^d2/biases/Assign"
   input: "^logits/weights/Assign"
   input: "^logits/biases/Assign"
   input: "^beta1_power/Assign"
@@ -8676,10 +12547,18 @@ node {
   input: "^e2/weights/Adam_1/Assign"
   input: "^e2/biases/Adam/Assign"
   input: "^e2/biases/Adam_1/Assign"
+  input: "^e3/weights/Adam/Assign"
+  input: "^e3/weights/Adam_1/Assign"
+  input: "^e3/biases/Adam/Assign"
+  input: "^e3/biases/Adam_1/Assign"
   input: "^d1/weights/Adam/Assign"
   input: "^d1/weights/Adam_1/Assign"
   input: "^d1/biases/Adam/Assign"
   input: "^d1/biases/Adam_1/Assign"
+  input: "^d2/weights/Adam/Assign"
+  input: "^d2/weights/Adam_1/Assign"
+  input: "^d2/biases/Adam/Assign"
+  input: "^d2/biases/Adam_1/Assign"
   input: "^logits/weights/Adam/Assign"
   input: "^logits/weights/Adam_1/Assign"
   input: "^logits/biases/Adam/Assign"
@@ -8722,7 +12601,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 26
+            size: 38
           }
         }
         string_val: "beta1_power"
@@ -8733,6 +12612,12 @@ node {
         string_val: "d1/weights"
         string_val: "d1/weights/Adam"
         string_val: "d1/weights/Adam_1"
+        string_val: "d2/biases"
+        string_val: "d2/biases/Adam"
+        string_val: "d2/biases/Adam_1"
+        string_val: "d2/weights"
+        string_val: "d2/weights/Adam"
+        string_val: "d2/weights/Adam_1"
         string_val: "e1/biases"
         string_val: "e1/biases/Adam"
         string_val: "e1/biases/Adam_1"
@@ -8745,6 +12630,12 @@ node {
         string_val: "e2/weights"
         string_val: "e2/weights/Adam"
         string_val: "e2/weights/Adam_1"
+        string_val: "e3/biases"
+        string_val: "e3/biases/Adam"
+        string_val: "e3/biases/Adam_1"
+        string_val: "e3/weights"
+        string_val: "e3/weights/Adam"
+        string_val: "e3/weights/Adam_1"
         string_val: "logits/biases"
         string_val: "logits/biases/Adam"
         string_val: "logits/biases/Adam_1"
@@ -8771,9 +12662,21 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 26
+            size: 38
           }
         }
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
         string_val: ""
         string_val: ""
         string_val: ""
@@ -8818,6 +12721,12 @@ node {
   input: "d1/weights"
   input: "d1/weights/Adam"
   input: "d1/weights/Adam_1"
+  input: "d2/biases"
+  input: "d2/biases/Adam"
+  input: "d2/biases/Adam_1"
+  input: "d2/weights"
+  input: "d2/weights/Adam"
+  input: "d2/weights/Adam_1"
   input: "e1/biases"
   input: "e1/biases/Adam"
   input: "e1/biases/Adam_1"
@@ -8830,6 +12739,12 @@ node {
   input: "e2/weights"
   input: "e2/weights/Adam"
   input: "e2/weights/Adam_1"
+  input: "e3/biases"
+  input: "e3/biases/Adam"
+  input: "e3/biases/Adam_1"
+  input: "e3/weights"
+  input: "e3/weights/Adam"
+  input: "e3/weights/Adam_1"
   input: "logits/biases"
   input: "logits/biases/Adam"
   input: "logits/biases/Adam_1"
@@ -8840,6 +12755,18 @@ node {
     key: "dtypes"
     value {
       list {
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
@@ -8907,7 +12834,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 26
+            size: 38
           }
         }
         string_val: "beta1_power"
@@ -8918,6 +12845,12 @@ node {
         string_val: "d1/weights"
         string_val: "d1/weights/Adam"
         string_val: "d1/weights/Adam_1"
+        string_val: "d2/biases"
+        string_val: "d2/biases/Adam"
+        string_val: "d2/biases/Adam_1"
+        string_val: "d2/weights"
+        string_val: "d2/weights/Adam"
+        string_val: "d2/weights/Adam_1"
         string_val: "e1/biases"
         string_val: "e1/biases/Adam"
         string_val: "e1/biases/Adam_1"
@@ -8930,6 +12863,12 @@ node {
         string_val: "e2/weights"
         string_val: "e2/weights/Adam"
         string_val: "e2/weights/Adam_1"
+        string_val: "e3/biases"
+        string_val: "e3/biases/Adam"
+        string_val: "e3/biases/Adam_1"
+        string_val: "e3/weights"
+        string_val: "e3/weights/Adam"
+        string_val: "e3/weights/Adam_1"
         string_val: "logits/biases"
         string_val: "logits/biases/Adam"
         string_val: "logits/biases/Adam_1"
@@ -8957,9 +12896,21 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 26
+            size: 38
           }
         }
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
+        string_val: ""
         string_val: ""
         string_val: ""
         string_val: ""
@@ -9001,6 +12952,18 @@ node {
     key: "dtypes"
     value {
       list {
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
+        type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
@@ -9290,7 +13253,7 @@ node {
 node {
   name: "save/Assign_8"
   op: "Assign"
-  input: "e1/biases"
+  input: "d2/biases"
   input: "save/RestoreV2:8"
   attr {
     key: "T"
@@ -9302,7 +13265,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@e1/biases"
+        s: "loc:@d2/biases"
       }
     }
   }
@@ -9322,7 +13285,7 @@ node {
 node {
   name: "save/Assign_9"
   op: "Assign"
-  input: "e1/biases/Adam"
+  input: "d2/biases/Adam"
   input: "save/RestoreV2:9"
   attr {
     key: "T"
@@ -9334,7 +13297,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@e1/biases"
+        s: "loc:@d2/biases"
       }
     }
   }
@@ -9354,8 +13317,136 @@ node {
 node {
   name: "save/Assign_10"
   op: "Assign"
-  input: "e1/biases/Adam_1"
+  input: "d2/biases/Adam_1"
   input: "save/RestoreV2:10"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_11"
+  op: "Assign"
+  input: "d2/weights"
+  input: "save/RestoreV2:11"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_12"
+  op: "Assign"
+  input: "d2/weights/Adam"
+  input: "save/RestoreV2:12"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_13"
+  op: "Assign"
+  input: "d2/weights/Adam_1"
+  input: "save/RestoreV2:13"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@d2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_14"
+  op: "Assign"
+  input: "e1/biases"
+  input: "save/RestoreV2:14"
   attr {
     key: "T"
     value {
@@ -9384,137 +13475,9 @@ node {
   }
 }
 node {
-  name: "save/Assign_11"
-  op: "Assign"
-  input: "e1/weights"
-  input: "save/RestoreV2:11"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e1/weights"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/Assign_12"
-  op: "Assign"
-  input: "e1/weights/Adam"
-  input: "save/RestoreV2:12"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e1/weights"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/Assign_13"
-  op: "Assign"
-  input: "e1/weights/Adam_1"
-  input: "save/RestoreV2:13"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e1/weights"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/Assign_14"
-  op: "Assign"
-  input: "e2/biases"
-  input: "save/RestoreV2:14"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e2/biases"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
   name: "save/Assign_15"
   op: "Assign"
-  input: "e2/biases/Adam"
+  input: "e1/biases/Adam"
   input: "save/RestoreV2:15"
   attr {
     key: "T"
@@ -9526,7 +13489,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@e2/biases"
+        s: "loc:@e1/biases"
       }
     }
   }
@@ -9546,8 +13509,136 @@ node {
 node {
   name: "save/Assign_16"
   op: "Assign"
-  input: "e2/biases/Adam_1"
+  input: "e1/biases/Adam_1"
   input: "save/RestoreV2:16"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e1/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_17"
+  op: "Assign"
+  input: "e1/weights"
+  input: "save/RestoreV2:17"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e1/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_18"
+  op: "Assign"
+  input: "e1/weights/Adam"
+  input: "save/RestoreV2:18"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e1/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_19"
+  op: "Assign"
+  input: "e1/weights/Adam_1"
+  input: "save/RestoreV2:19"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e1/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_20"
+  op: "Assign"
+  input: "e2/biases"
+  input: "save/RestoreV2:20"
   attr {
     key: "T"
     value {
@@ -9576,137 +13667,9 @@ node {
   }
 }
 node {
-  name: "save/Assign_17"
-  op: "Assign"
-  input: "e2/weights"
-  input: "save/RestoreV2:17"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e2/weights"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/Assign_18"
-  op: "Assign"
-  input: "e2/weights/Adam"
-  input: "save/RestoreV2:18"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e2/weights"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/Assign_19"
-  op: "Assign"
-  input: "e2/weights/Adam_1"
-  input: "save/RestoreV2:19"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@e2/weights"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/Assign_20"
-  op: "Assign"
-  input: "logits/biases"
-  input: "save/RestoreV2:20"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@logits/biases"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
   name: "save/Assign_21"
   op: "Assign"
-  input: "logits/biases/Adam"
+  input: "e2/biases/Adam"
   input: "save/RestoreV2:21"
   attr {
     key: "T"
@@ -9718,7 +13681,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@logits/biases"
+        s: "loc:@e2/biases"
       }
     }
   }
@@ -9738,8 +13701,328 @@ node {
 node {
   name: "save/Assign_22"
   op: "Assign"
-  input: "logits/biases/Adam_1"
+  input: "e2/biases/Adam_1"
   input: "save/RestoreV2:22"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e2/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_23"
+  op: "Assign"
+  input: "e2/weights"
+  input: "save/RestoreV2:23"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_24"
+  op: "Assign"
+  input: "e2/weights/Adam"
+  input: "save/RestoreV2:24"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_25"
+  op: "Assign"
+  input: "e2/weights/Adam_1"
+  input: "save/RestoreV2:25"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e2/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_26"
+  op: "Assign"
+  input: "e3/biases"
+  input: "save/RestoreV2:26"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_27"
+  op: "Assign"
+  input: "e3/biases/Adam"
+  input: "save/RestoreV2:27"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_28"
+  op: "Assign"
+  input: "e3/biases/Adam_1"
+  input: "save/RestoreV2:28"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_29"
+  op: "Assign"
+  input: "e3/weights"
+  input: "save/RestoreV2:29"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_30"
+  op: "Assign"
+  input: "e3/weights/Adam"
+  input: "save/RestoreV2:30"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_31"
+  op: "Assign"
+  input: "e3/weights/Adam_1"
+  input: "save/RestoreV2:31"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@e3/weights"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_32"
+  op: "Assign"
+  input: "logits/biases"
+  input: "save/RestoreV2:32"
   attr {
     key: "T"
     value {
@@ -9768,10 +14051,74 @@ node {
   }
 }
 node {
-  name: "save/Assign_23"
+  name: "save/Assign_33"
+  op: "Assign"
+  input: "logits/biases/Adam"
+  input: "save/RestoreV2:33"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@logits/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_34"
+  op: "Assign"
+  input: "logits/biases/Adam_1"
+  input: "save/RestoreV2:34"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@logits/biases"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/Assign_35"
   op: "Assign"
   input: "logits/weights"
-  input: "save/RestoreV2:23"
+  input: "save/RestoreV2:35"
   attr {
     key: "T"
     value {
@@ -9800,10 +14147,10 @@ node {
   }
 }
 node {
-  name: "save/Assign_24"
+  name: "save/Assign_36"
   op: "Assign"
   input: "logits/weights/Adam"
-  input: "save/RestoreV2:24"
+  input: "save/RestoreV2:36"
   attr {
     key: "T"
     value {
@@ -9832,10 +14179,10 @@ node {
   }
 }
 node {
-  name: "save/Assign_25"
+  name: "save/Assign_37"
   op: "Assign"
   input: "logits/weights/Adam_1"
-  input: "save/RestoreV2:25"
+  input: "save/RestoreV2:37"
   attr {
     key: "T"
     value {
@@ -9892,6 +14239,18 @@ node {
   input: "^save/Assign_23"
   input: "^save/Assign_24"
   input: "^save/Assign_25"
+  input: "^save/Assign_26"
+  input: "^save/Assign_27"
+  input: "^save/Assign_28"
+  input: "^save/Assign_29"
+  input: "^save/Assign_30"
+  input: "^save/Assign_31"
+  input: "^save/Assign_32"
+  input: "^save/Assign_33"
+  input: "^save/Assign_34"
+  input: "^save/Assign_35"
+  input: "^save/Assign_36"
+  input: "^save/Assign_37"
 }
 versions {
   producer: 26

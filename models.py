@@ -87,7 +87,7 @@ def model_for(eg):
     # shape of the slicing is wrong in the ncs inference case... note: this might
     # be related to the slice, which i only include because conv with 1 filter fails
 
-    imgs = tf.placeholder(dtype=np.float32, shape=(1, 64, 64, 3), name='imgs')
+    imgs = tf.placeholder(dtype=np.float32, shape=(1, 128, 128, 3), name='imgs')
     dump_shape_and_product_of('imgs', imgs)
 
     # conv layer 1 with stride 2 for downsampling
@@ -98,10 +98,19 @@ def model_for(eg):
     model = slim.conv2d(model, num_outputs=16, kernel_size=3, stride=2, padding='VALID', scope='e2')
     dump_shape_and_product_of('e2', model)
 
+    # conv layer 2 with stride 2 for downsampling
+    model = slim.conv2d(model, num_outputs=32, kernel_size=3, stride=2, padding='VALID', scope='e3')
+    dump_shape_and_product_of('e3', model)
+
     # deconv with stride 2 for upsampling
-    model = slim.conv2d_transpose(model, num_outputs=8, kernel_size=3, stride=2,
+    model = slim.conv2d_transpose(model, num_outputs=16, kernel_size=3, stride=2,
                                   padding='VALID', scope='d1')
     dump_shape_and_product_of('d1', model)
+
+    # deconv with stride 2 for upsampling
+    model = slim.conv2d_transpose(model, num_outputs=8, kernel_size=3, stride=2,
+                                  padding='VALID', scope='d2')
+    dump_shape_and_product_of('d2', model)
 
     # use 1x1 conv with single kernel, with no activation, for logits calculation
     logits = slim.conv2d(model, num_outputs=1, kernel_size=1, stride=1,
@@ -111,7 +120,7 @@ def model_for(eg):
     output = tf.nn.sigmoid(logits, name='output')
     dump_shape_and_product_of('output', output)
 
-    label = tf.placeholder(dtype=np.float32, shape=(1, 31, 31, 1), name='label')
+    label = tf.placeholder(dtype=np.float32, shape=(1, 63, 63, 1), name='label')
 
     loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=label, logits=logits))
 

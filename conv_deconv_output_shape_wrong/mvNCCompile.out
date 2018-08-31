@@ -2,7 +2,7 @@
 /usr/local/bin/ncsdk/Controllers/FileIO.py:65: UserWarning: [93mYou are using a large type. Consider reducing your data sizes for best performance[0m
 [1mmvNCCompile v02.00, Copyright @ Intel Corporation 2017[0m
 
-shape: (1, 64, 64, 3)
-res.shape:  (1, 31, 31, 1)
-TensorFlow output shape:  (31, 31, 1)
+shape: (1, 128, 128, 3)
+res.shape:  (1, 63, 63, 1)
+TensorFlow output shape:  (63, 63, 1)
 Blob generated

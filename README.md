@@ -149,3 +149,5 @@ shape `(29791,)` instead of expected `(31, 31, 1)`
 reshape to (31,31,1), and it seems to work...
 
 `ncs_positive_prediction = ncs_positive_prediction[:31*31].reshape((31,31,1))`
+
+also works if input is (128, 128, 3)

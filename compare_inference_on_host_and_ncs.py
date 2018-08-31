@@ -56,8 +56,9 @@ print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_pre
 print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction.flatten()[:10])
 
 if opts.eg == 'conv_deconv_output_shape_wrong':
-  ncs_positive_prediction = ncs_positive_prediction[:31*31].reshape((31,31,1))
-  ncs_negative_prediction = ncs_negative_prediction[:31*31].reshape((31,31,1))
+  N = 63
+  ncs_positive_prediction = ncs_positive_prediction[:N*N].reshape((N,N,1))
+  ncs_negative_prediction = ncs_negative_prediction[:N*N].reshape((N,N,1))
 
 input_fifo.destroy()
 output_fifo.destroy()
