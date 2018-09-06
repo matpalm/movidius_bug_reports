@@ -1,13 +1,22 @@
-WARNING:tensorflow:From /usr/lib/python3.5/site-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
-Instructions for updating:
-Use the retry module or similar alternatives.
-2018-08-31 12:46:34.833435: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
-imgs       (1, 128, 128, 3)     #49152
-e1         (1, 63, 63, 8)       #31752
-e2         (1, 31, 31, 16)      #15376
-e3         (1, 15, 15, 32)      #7200
-d1         (1, 31, 31, 16)      #15376
-d2         (1, 63, 63, 8)       #31752
-output     (1, 63, 63, 1)       #3969
-pre training; pos_loss 0.695402 neg_loss 0.691089
-post training; pos_loss 0.000328728 neg_loss 0.000225397
+2018-09-06 16:52:38.764603: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: FMA
+2018-09-06 16:52:38.963024: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1392] Found device 0 with properties: 
+name: TITAN X (Pascal) major: 6 minor: 1 memoryClockRate(GHz): 1.531
+pciBusID: 0000:01:00.0
+totalMemory: 11.90GiB freeMemory: 10.70GiB
+2018-09-06 16:52:38.963058: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1471] Adding visible gpu devices: 0
+2018-09-06 16:52:39.302937: I tensorflow/core/common_runtime/gpu/gpu_device.cc:952] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-09-06 16:52:39.302978: I tensorflow/core/common_runtime/gpu/gpu_device.cc:958]      0 
+2018-09-06 16:52:39.302989: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   N 
+2018-09-06 16:52:39.303265: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1084] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10348 MB memory) -> physical GPU (device: 0, name: TITAN X (Pascal), pci bus id: 0000:01:00.0, compute capability: 6.1)
+imgs       (1, 512, 512, 3)     #786432
+e1         (1, 255, 255, 8)     #520200
+e2         (1, 127, 127, 16)    #258064
+e3         (1, 63, 63, 32)      #127008
+e4         (1, 31, 31, 64)      #61504
+e5         (1, 15, 15, 128)     #28800
+d1         (1, 31, 31, 64)      #61504
+d2         (1, 63, 63, 32)      #127008
+d3         (1, 127, 127, 16)    #258064
+output     (1, 127, 127, 1)     #16129
+pre training; pos_loss 0.692055 neg_loss 0.694212
+post training; pos_loss 4.50897e-07 neg_loss 0.287338

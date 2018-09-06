@@ -24,10 +24,11 @@ def tensors_for(eg):
 
   elif eg == 'conv_deconv_output_shape_wrong':
     np.random.seed(123)
-    return (random_img_like_tensor((128, 128, 3)),  # pos example
-            np.ones((63, 63, 1)),                   # pos label
-            random_img_like_tensor((128, 128, 3)),  # neg example
-            np.zeros((63, 63, 1)))                  # neg label
+    I, O = 512, 127
+    return (random_img_like_tensor((I, I, 3)),  # pos example
+            np.ones((O, O, 1)),                 # pos label
+            random_img_like_tensor((I, I, 3)),  # neg example
+            np.zeros((O, O, 1)))                # neg label
 
   else:
     raise Exception("unknown eg [%s]" % eg)

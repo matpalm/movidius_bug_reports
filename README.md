@@ -150,4 +150,11 @@ reshape to (31,31,1), and it seems to work...
 
 `ncs_positive_prediction = ncs_positive_prediction[:31*31].reshape((31,31,1))`
 
-also works if input is (128, 128, 3)
+note: if we try to make the output too large we get a Read failure...
+
+| Input size | Output size | effect |
+| ---------- | ----------- | ------ |
+| (128,128,3) | (63,63,1) | works |
+| (256,256,3) | (128,128,1) | fails; `E: [ 0] dispatcherEventReceive:200 dispatcherEventReceive() Read failed -4` |
+| (256,256,3) | (63,63,1) | works |
+| (512,512,3) | (63,63,1) | works |

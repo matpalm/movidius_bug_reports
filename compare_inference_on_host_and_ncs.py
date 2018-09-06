@@ -33,7 +33,7 @@ print("host_positive_prediction", host_positive_prediction.shape, host_positive_
 print("host_negative_prediction", host_negative_prediction.shape, host_negative_prediction.flatten()[:10])
 
 # check on ncs
-
+mvnc.global_set_option(mvnc.GlobalOption.RW_LOG_LEVEL, 2)
 devices = mvnc.enumerate_devices()
 if len(devices) == 0:
   raise Exception("no compute stick?")
@@ -56,9 +56,9 @@ print("ncs_positive_prediction", ncs_positive_prediction.shape, ncs_positive_pre
 print("ncs_negative_prediction", ncs_negative_prediction.shape, ncs_negative_prediction.flatten()[:10])
 
 if opts.eg == 'conv_deconv_output_shape_wrong':
-  N = 63
-  ncs_positive_prediction = ncs_positive_prediction[:N*N].reshape((N,N,1))
-  ncs_negative_prediction = ncs_negative_prediction[:N*N].reshape((N,N,1))
+  O = 127
+  ncs_positive_prediction = ncs_positive_prediction[:O*O].reshape((O,O,1))
+  ncs_negative_prediction = ncs_negative_prediction[:O*O].reshape((O,O,1))
 
 input_fifo.destroy()
 output_fifo.destroy()
@@ -72,8 +72,17 @@ if host_positive_prediction.shape != ncs_positive_prediction.shape:
   raise Exception("shape mismatch between host [%s] and ncs [%s]" % (host_positive_prediction.shape,
                                                                      ncs_positive_prediction.shape))
 
-pos_close = np.all(np.isclose(host_positive_prediction, ncs_positive_prediction, atol=0.2))
-neg_close = np.all(np.isclose(host_negative_prediction, ncs_negative_prediction, atol=0.2))
+# decide error tolerance based on whether we are outputing sigmoid
+# output or logit output
+if opts.eg == 'conv_deconv_output_shape_wrong':
+  # logits; so higher arol
+  atol = 1.0
+else:
+  # sigmoid output; so lower atol
+  atol = 0.2
+
+pos_close = np.all(np.isclose(host_positive_prediction, ncs_positive_prediction, atol=atol))
+neg_close = np.all(np.isclose(host_negative_prediction, ncs_negative_prediction, atol=atol))
 if pos_close and neg_close:
   print("PASS", opts.eg)
 else:
